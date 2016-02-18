@@ -1,17 +1,14 @@
 {
-  "name": "chat_room_1.0.0",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Meng",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.13.4",
-    "jquery": "^2.2.0",
-    "socket.io": "^1.4.5",
-    "sqlite3": "^3.1.1"
-  }
+    "name": "chat-app",
+    "main": "server.js",
+    "dependencies" : {
+	"express" : "4.8.0",
+	"socket.io": "1.4.4",
+	"sqlite3": "3.1.1",
+	"jade": "1.11.0",
+	
+	"body-parser": "~1.0.0",
+	"cookie-parser": "~1.0.0",
+	"express-session": "~1.0.0" 
+    }
 }

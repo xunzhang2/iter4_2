@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+    <!-- Custom CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/stylish-portfolio.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+  </head>
+
+  <body onload="checkCookie()">
+    <header id="top" class="header">
+      <div class="text-vertical-center">
+	
+	<form class="form-signin" style="width:30%; margin:auto;"
+	      action="/login" method="post" enctype="application/json">
+	  <h1>Enter credentials: </h1>
+	  <h3> If username not found, a new account will be created.</h3>
+	  <input type="text" id="username" class="form-control input-lg" placeholder="Username"
+		 pattern=".{3,}" required title="At least 3 characters" autofocus=""
+		 style="width:50%; margin:auto;" name="username">
+	  <input type="password" id="password" class="form-control input-lg" placeholder="Password"
+		 pattern=".{4,}" required title="At least 4 characters"
+		 style="width:50%; margin:auto" name="password"> <br>
+	  <button class="btn btn-lg btn-primary btn-block" type="submit"
+		  style="width:50%; margin:auto">Join Community</button>
+	</form>
+	
+      </div>
+    </header>
+
+    <script src="js/cookies.js"></script>
+    
+  </body>
+</html>

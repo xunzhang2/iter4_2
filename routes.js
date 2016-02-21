@@ -77,6 +77,9 @@ module.exports = function(app, db) {
 	db.userExists(req.body.username, req.body.password, callback);	
     });
 
-    
+    // =========== SEND MESSAGES ==============
+    app.post('/sendMessages', function(req, res) {
+
+    });
 };
 		

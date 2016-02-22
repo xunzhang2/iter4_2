@@ -82,7 +82,12 @@ module.exports = function(app, db) {
 
     // =========== SEND MESSAGES ==============
     app.post('/sendMessages', function(req, res) {
-
+    	db.saveMessages(req.body.messages, "Feb", req.cookies['username'], function(done) {
+    		console.log('messages saved ;)');
+    		if (done == "Messages Saved") {
+    			res.redirect('/chat');
+    		}
+    	});
     });
 };
 		

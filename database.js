@@ -30,12 +30,26 @@ var database = function () {
 
 
     this.getUsers = function(call) {
-	var query = "SELECT username FROM Citizens;";
-	this.db.all(query, function(err, rows) {
-	    if (err)
-		console.log(err);
-	    call(rows);
-	});
+		var query = "SELECT username FROM Citizens;";
+		this.db.all(query, function(err, rows) {
+	    	if (err)
+			console.log(err);
+	    	call(rows);
+		});
+    }
+
+    this.getMessages = function(callback) {
+    	var query = "SELECT * FROM Messages";
+    	this.db.all(query, function(err, rows) {
+    		if(err) {
+    			console.log(err);
+    		}
+    		callback(rows);
+    	});
+    }
+
+    this.saveMessages = function() {
+
     }
 
     return this;

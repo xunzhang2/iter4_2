@@ -16,14 +16,15 @@
   <body onload="checkCookie()">
     <header id="top" class="header">
       <div class="text-vertical-center">
-	<h1>This is the chatting page</h1>
-	<h3>Please enter your messages</h3>
-	<br>
-	<a href="/sendMessages" class="btn btn-dark btn-lg">SEND</a>
+        <form action="/sendMessages" method="post" id="chatpage" style="width: 400px; margin: auto">
+          <fieldset class="form-group">
+            <label>Please input your messages</label>
+            <input name="messages" type="text" class="form-control" placeholder="Messages"></input>
+          </fieldset>
+          <button type="submit" class="btn btn-primary">SEND</button>
+        </form>
       </div>
     </header>
-
     <script src="js/cookies.js"></script>
-    
   </body>
 </html>

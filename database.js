@@ -9,11 +9,9 @@ var database = function () {
 		console.log(err);
 	    if (row) { // if non empty result (aka username exists)
 		if (row.password == password) {
-		    console.log("equal");
 		    call("Success");
 		    return;
 		} else {
-		    console.log("no");
 		    call("Password Incorrect");
 		    return;
 		}

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  header#top.header
+    .text-vertical-center
+      .list-group(style='width:20%; margin:auto')
+      each msg, i in result
+        a.btn.btn-dark.btn-lg.home-items=msg.message
+        br
+      br
+      form#chatpage(action='/sendMessages', method='post', style='width: 400px; margin: auto')
+        fieldset.form-group
+          label Please input your messages ;)
+          input.form-control(name='messages', type='text', placeholder='Messages')
+        button.btn.btn-primary(type='submit') SEND

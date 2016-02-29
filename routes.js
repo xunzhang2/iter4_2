@@ -41,7 +41,10 @@ module.exports = function(app, db) {
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
 	if ('username' in req.cookies)
-	    res.sendFile(__dirname + '/views/chat.html');
+		db.getMessages(function(doc){
+			console.log(doc);
+			res.render("chat", {result: doc});
+		});
 	else
 	    res.redirect('/');
     });
@@ -77,6 +80,14 @@ module.exports = function(app, db) {
 	db.userExists(req.body.username, req.body.password, callback);	
     });
 
-    
+    // =========== SEND MESSAGES ==============
+    app.post('/sendMessages', function(req, res) {
+    	db.saveMessages(req.body.messages, "Feb", req.cookies['username'], function(done) {
+    		console.log('messages saved ;)');
+    		if (done == "Messages Saved") {
+    			res.redirect('/chat');
+    		}
+    	});
+    });
 };
 		

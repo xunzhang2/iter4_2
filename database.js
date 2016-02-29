@@ -24,18 +24,33 @@ var database = function () {
     };
 
     this.addUser = function(username, password, call) {
-	this.db.run("INSERT INTO Citizens (username,password) VALUES (?,?)",username,password);
-	call("User created");
+		this.db.run("INSERT INTO Citizens (username,password) VALUES (?,?)",username,password);
+		call("User created");
     }
 
 
     this.getUsers = function(call) {
-	var query = "SELECT username FROM Citizens;";
-	this.db.all(query, function(err, rows) {
-	    if (err)
-		console.log(err);
-	    call(rows);
-	});
+		var query = "SELECT username FROM Citizens;";
+		this.db.all(query, function(err, rows) {
+	    	if (err)
+			console.log(err);
+	    	call(rows);
+		});
+    }
+
+    this.getMessages = function(callback) {
+    	var query = "SELECT * FROM Messages";
+    	this.db.all(query, function(err, rows) {
+    		if(err) {
+    			console.log(err);
+    		}
+    		callback(rows);
+    	});
+    }
+
+    this.saveMessages = function(messages, timestamp, username, call) {
+    	this.db.run("INSERT INTO Messages(message, timestampe, username) VALUES (?, ?, ?)", messages, timestamp, username);
+    	call("Messages Saved");
     }
 
     return this;

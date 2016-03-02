@@ -11,10 +11,12 @@ module.exports = function(app, db) {
 
     // =========== LOGIN PAGE  ==============
     app.get('/login', function(req, res) {
-	if ('username' in req.cookies)
+	if ('username' in req.cookies) {
 	    res.redirect('/home');
-	else
-	    res.sendFile(__dirname + '/views/login.html');
+	} else {
+	    res.locals.title = "Login";
+	    res.render('login');
+	}
     });
 
     // =========== HOME PAGE  ==============
@@ -25,6 +27,7 @@ module.exports = function(app, db) {
 		res.locals.message = req.session.message;
 		req.session.message = null;
 	    }
+	    res.locals.title = "Home";
 	    res.render('home');
 	} else {
 	    res.redirect('/');
@@ -36,6 +39,7 @@ module.exports = function(app, db) {
 	if ('username' in req.cookies) {
 	    function callback(result) {
 		res.locals.result=result;
+		res.locals.title = "Users";
 		res.render('users');
 	    }
 	    db.getUsers(callback);
@@ -46,10 +50,11 @@ module.exports = function(app, db) {
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
 	if ('username' in req.cookies)
-		db.getMessages(function(doc){
-			console.log(doc);
-			res.render("chat", {result: doc});
-		});
+	    db.getMessages(function(doc){
+		console.log(doc);
+		res.locals.title = "Chat";
+		res.render("chat", {result: doc});
+	    });
 	else
 	    res.redirect('/');
     });
@@ -73,11 +78,15 @@ module.exports = function(app, db) {
 		res.redirect('/home');
 		
 	    } else if (result == "Password Incorrect") {
-		res.redirect('/login');
+		res.locals.failure = true;
+		res.locals.message = "Password incorrect, please try again";
+		res.locals.title = "Login";
+		res.render('login');
 		
 	    } else if (result == "User does not exist") {
 		db.addUser(username, password, function(done) {
 		    res.cookie('username', username, {maxAge:200000});
+		    req.session.message = "New user created: " + username;
 		    res.redirect('/home');
 		});
 	    }

@@ -5,10 +5,15 @@ block content
     .text-vertical-center
       h1  Directory
       br
-      .list-group(style='width:20%; margin:auto')
-      each user in result
-        a.btn.btn-dark.btn-lg.home-items=user.username
-        br
+
+      table(style='width:20%; margin:auto')
+        each user in result
+          tr 
+            td 
+              a.btn.btn-dark.btn-lg.home-items=user.username 
+            td 
+              a.btn.btn-dark.btn-lg.home-items=user.status
+            td 
       br
       a.btn.btn-dark.btn-lg.home-items(href='/home') Home
 

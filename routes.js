@@ -58,7 +58,19 @@ module.exports = function(app, db) {
 	else
 	    res.redirect('/');
     });
+    
+    // ============== SET STATUS =============
+    app.get('/status', function(req, res) {
+	if ('username' in req.cookies) {
+	    res.locals.title = "Status";
+	    res.render('status');
+	} else {
+	    res.redirect('/');
+	}
 
+    });
+
+    
     // ============== LOGOUT =============
     app.get('/logout', function(req, res) {
 	res.clearCookie('username');
@@ -95,6 +107,25 @@ module.exports = function(app, db) {
 	db.userExists(username, password, callback);	
     });
 
+    // =========== POST STATUS ==============
+    app.post('/status', function(req, res) {
+	console.log(req.body);
+	var status = req.body.status;
+	function callback(result) {
+	    if (result == "Success") {
+		req.session.message = "Successfully set status: " + status;
+		res.redirect('/home');
+	    } else {
+		res.locals.failure = true;
+		res.locals.message = "Error";
+		res.render('status');
+	    }
+	}
+	db.setStatus(req.cookies['username'], status, callback);
+    });
+
+
+    
     // =========== SEND MESSAGES ==============
     app.post('/sendMessages', function(req, res) {
     	db.saveMessages(req.body.messages, "Feb", req.cookies['username'], function(done) {
@@ -104,5 +135,7 @@ module.exports = function(app, db) {
     		}
     	});
     });
+
+    
 };
 		

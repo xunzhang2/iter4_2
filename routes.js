@@ -1,5 +1,6 @@
-module.exports = function(app, db) {
 
+module.exports = function(app, db) {
+    fs = require('fs');
     var db = require('./database.js')();
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
@@ -82,6 +83,14 @@ module.exports = function(app, db) {
     app.post('/login', function(req, res) {
 	console.log(req.body);
 	var username = req.body.username;
+
+	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").indexOf(username) > -1) {
+	    res.locals.failure = true;
+	    res.locals.message = "Password incorrect, please try again";
+	    res.locals.title = "Login";
+	    res.render('login');
+	}
+	
 	var password = req.body.password;
 	function callback(result) {
 	    if (result == "Success") {

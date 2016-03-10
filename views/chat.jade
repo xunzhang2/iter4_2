@@ -4,10 +4,13 @@ block content
   header#top.header
     .text-vertical-center
       .list-group(style='width:20%; margin:auto')
-      each msg, i in result
-        a.btn.btn-dark.btn-lg.home-items=msg.message
+        ul#messages
+          for msg in result
+            li.btn.btn-dark.btn-lg.home-items=msg.username
+            li.btn.btn-dark.btn-lg.home-items=msg.message
+            li.btn.btn-dark.btn-lg.home-items=msg.timestamp
+          br
         br
-      br
       form#chatpage(action='/sendMessages', method='post', style='width: 400px; margin: auto')
         fieldset.form-group
           label Please input your messages ;)

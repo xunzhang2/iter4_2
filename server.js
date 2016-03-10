@@ -18,12 +18,13 @@ app.use(session({ secret: 'sessionsecret' }));
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
-require('./routes.js')(app);
+require('./socket.js')(io);
+require('./routes.js')(app,io);
 
 
 // Start application
 var PORT = 3000;
-app.listen(PORT, function () {
+http.listen(PORT, function () {
     console.log('Server listening at port %d', PORT);
 });
 

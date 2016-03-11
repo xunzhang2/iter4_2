@@ -1,6 +1,5 @@
-module.exports = function(app, io) {
-    var DATABASE = require('./database.js');
-	var db = new DATABASE();
+module.exports = function(app, io, db) {
+    
     fs = require('fs');
     db.createDB();
     // =========== INDEX PAGE  ==============
@@ -136,15 +135,7 @@ module.exports = function(app, io) {
 
 
     
-    // =========== SEND MESSAGES ==============
-    app.post('/sendMessages', function(req, res) {
-    	db.saveMessages(req.body.messages, current_time(), req.cookies['username'], function(done) {
-    		console.log('messages saved ;)');
-    		if (done == "Messages Saved") {
-    			res.redirect('/chat');
-    		}
-    	});
-    });
+    
 
     //returns current time
 	var current_time = function() {

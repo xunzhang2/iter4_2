@@ -20,7 +20,7 @@ database.prototype.createDB = function(){
     	 this.db.run("CREATE TABLE IF NOT EXISTS Messages (" + 
 				      "timestamp TEXT NOT NULL, " + 
 				      "username TEXT NOT NULL, " + 
-				      "message TEXT NOT NULL)");
+				      "message TEXT)");
 
     	 this.db.run("CREATE TABLE IF NOT EXISTS PriMsg (" + 
 				      "timestamp TEXT NOT NULL, " + 

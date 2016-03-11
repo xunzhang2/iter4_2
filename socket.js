@@ -15,6 +15,16 @@ module.exports = function(io, db) {
  //============================ PUBLIC CHAT =====================================
 
 //============================ ANNOUNCEMENT =====================================
+ // reveive announcements from user
+    socket.on('announcement', function(data){
+       io.emit("newAnn", data);
+       db.saveAnnouce(data, current_time(),"Lily", function(done) {
+        console.log('annoucement saved ;)');
+        
+      });
+    });
+  //============================ DISCONNECT =====================================   
+
     socket.on('disconnect', function(){
        console.log('user disconnected');
     });

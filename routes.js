@@ -1,4 +1,4 @@
-module.exports = function(app, io, db) {
+module.exports = function(app, db) {
     
     fs = require('fs');
     db.createDB();
@@ -55,6 +55,18 @@ module.exports = function(app, io, db) {
 		console.log(doc);
 		res.locals.title = "Chat";
 		res.render("chat", {result: doc});
+	    });
+	else
+	    res.redirect('/');
+    });
+    
+    // ============== ANNOUNCEMENT =============
+    app.get('/announce', function(req, res) {
+	if ('username' in req.cookies)
+	    db.getAnnouce(function(doc){
+		console.log(doc);
+		res.locals.title = "Post Announcement";
+		res.render("announce", {result: doc});
 	    });
 	else
 	    res.redirect('/');

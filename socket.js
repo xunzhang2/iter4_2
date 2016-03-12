@@ -6,13 +6,13 @@ module.exports = function(io, db) {
 //============================ PUBLIC CHAT =====================================
     // reveive new public message from user, send it to other users
     socket.on('chat message', function(data){
-       io.emit("newMsg", data);
-       db.saveMessages(data, current_time(),"Lily", function(done) {
-    		console.log('messages saved ;)');
-    		
-    	});
+       io.emit("newMsg", {msg: data.msg, time: current_time(), name:data.name});
+       db.saveMessages(data.msg, current_time(),data.name, function(done) {
+        console.log('messages saved ;)');
+        
+      });
     });
- //============================ PUBLIC CHAT =====================================
+ //============================ PRIVATE CHAT =====================================
 
 //============================ ANNOUNCEMENT =====================================
  // reveive announcements from user
@@ -32,11 +32,11 @@ module.exports = function(io, db) {
   });
 
 
-  //returns current time
-	var current_time = function() {
-		var d = new Date(Date.now());
-		var datestring = d.toLocaleDateString();
-		var timestring = d.toLocaleTimeString();
-		return datestring.concat(" ", timestring);
-	};
+//returns current time
+  var current_time = function() {
+    var d = new Date(Date.now());
+    var datestring = d.toLocaleDateString();
+    var timestring = d.toLocaleTimeString();
+    return datestring.concat(" ", timestring);
+  };
 };

@@ -17,8 +17,8 @@ module.exports = function(io, db) {
 //============================ ANNOUNCEMENT =====================================
  // reveive announcements from user
     socket.on('announcement', function(data){
-       io.emit("newAnn", data);
-       db.saveAnnouce(data, current_time(),"Lily", function(done) {
+       io.emit("newAnn", {msg: data.msg, time: current_time(), name:data.name});
+       db.saveAnnouce(data.msg,  current_time(),data.name, function(done) {
         console.log('annoucement saved ;)');
         
       });

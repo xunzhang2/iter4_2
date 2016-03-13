@@ -1,4 +1,3 @@
-
 module.exports = function(app, db) {
     fs = require('fs');
     var db = require('./database.js')();
@@ -86,9 +85,10 @@ module.exports = function(app, db) {
 
 	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").indexOf(username) > -1) {
 	    res.locals.failure = true;
-	    res.locals.message = "Password incorrect, please try again";
+	    res.locals.message = "Username not allowed, please try again";
 	    res.locals.title = "Login";
 	    res.render('login');
+	    return;
 	}
 	
 	var password = req.body.password;

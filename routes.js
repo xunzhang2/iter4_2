@@ -1,6 +1,7 @@
 module.exports = function(app, db) {
+    
     fs = require('fs');
-    var db = require('./database.js')();
+    db.createDB();
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
 	if ('username' in req.cookies)
@@ -54,6 +55,18 @@ module.exports = function(app, db) {
 		console.log(doc);
 		res.locals.title = "Chat";
 		res.render("chat", {result: doc});
+	    });
+	else
+	    res.redirect('/');
+    });
+    
+    // ============== ANNOUNCEMENT =============
+    app.get('/announce', function(req, res) {
+	if ('username' in req.cookies)
+	    db.getAnnouce(function(doc){
+		console.log(doc);
+		res.locals.title = "Post Announcement";
+		res.render("announce", {result: doc});
 	    });
 	else
 	    res.redirect('/');
@@ -135,15 +148,15 @@ module.exports = function(app, db) {
 
 
     
-    // =========== SEND MESSAGES ==============
-    app.post('/sendMessages', function(req, res) {
-    	db.saveMessages(req.body.messages, "Feb", req.cookies['username'], function(done) {
-    		console.log('messages saved ;)');
-    		if (done == "Messages Saved") {
-    			res.redirect('/chat');
-    		}
-    	});
-    });
+    
+
+    //returns current time
+	var current_time = function() {
+		var d = new Date(Date.now());
+		var datestring = d.toLocaleDateString();
+		var timestring = d.toLocaleTimeString();
+		return datestring.concat(" ", timestring);
+	};
 
     
 };

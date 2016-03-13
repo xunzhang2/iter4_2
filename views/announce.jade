@@ -1,7 +1,19 @@
-extends layout
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title #{title}
+    link(href='css/bootstrap.min.css', rel='stylesheet')
+    link(href='css/stylish-portfolio.css', rel='stylesheet')
+    link(href='css/home.css', rel='stylesheet')
+    link(href='font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
 
-block content
-  header#top.header
+
+  body(onload='checkCookie()')
+     header#top.header
     .text-vertical-center
       .list-group(style='width:20%; margin:auto')
         ul#messagelist
@@ -20,6 +32,5 @@ block content
   script(src='js/cookies.js')
   script(src='http://code.jquery.com/jquery-1.11.1.js')
   script(src='/socket.io/socket.io.js')
-  script(src='js/chat.js')
-  
+  script(src='js/announce.js')
   

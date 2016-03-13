@@ -120,8 +120,8 @@ database.prototype.savePriMsg = function(messages, timestamp, user1, user2, call
 
 //=================================  SHARE STATUS  ===================================
 database.prototype.setStatus = function(status, username, call){
-    this.db.run("UPDATE Citizens SET status = '" +status+ "' WHERE username = '" +username+ "';");
-	call("Success");
+    this.db.run("UPDATE Citizens SET status = '" +status+ "' WHERE username = '" +username+ "';",
+		call("Success"));
 },
 
 

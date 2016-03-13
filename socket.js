@@ -1,30 +1,17 @@
 module.exports = function(io, db) {
+var socketQueue = [];
 
   io.on("connection", function(socket){
-
-    console.log('a user connected');
+    
 //============================ PUBLIC CHAT =====================================
     // reveive new public message from user, send it to other users
-    socket.on('chat message', function(data){
-       io.emit("newMsg", data);
-       db.saveMessages(data, current_time(),"Lily", function(done) {
-    		console.log('messages saved ;)');
-    		
-    	});
+    socket.on('sendPublicMessage', function(data){
+      io.emit("broadcastPublicMessage", data);
+      db.saveMessages(data.message, current_time(), data.name, function(){});
     });
- //============================ PUBLIC CHAT =====================================
+//============================ PUBLIC CHAT =====================================
 
 //============================ ANNOUNCEMENT =====================================
- // reveive announcements from user
-    socket.on('announcement', function(data){
-       io.emit("newAnn", data);
-       db.saveAnnouce(data, current_time(),"Lily", function(done) {
-        console.log('annoucement saved ;)');
-        
-      });
-    });
-  //============================ DISCONNECT =====================================   
-
     socket.on('disconnect', function(){
        console.log('user disconnected');
     });

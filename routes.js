@@ -40,6 +40,8 @@ module.exports = function(app, db) {
 	if ('username' in req.cookies) {
 	    function callback(result) {
 		res.locals.result=result;
+		console.log("*****");
+		console.log(result);
 		res.locals.title = "Users";
 		res.render('users');
 	    }
@@ -50,32 +52,22 @@ module.exports = function(app, db) {
 	    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
-	if ('username' in req.cookies)
-	    db.getMessages(function(doc){
-		console.log(doc);
-		res.locals.title = "Chat";
-		res.render("chat", {result: doc});
-	    });
-	else
-	    res.redirect('/');
-    });
-    
-    // ============== ANNOUNCEMENT =============
-    app.get('/announce', function(req, res) {
-	if ('username' in req.cookies)
-	    db.getAnnouce(function(doc){
-		console.log(doc);
-		res.locals.title = "Post Announcement";
-		res.render("announce", {result: doc});
-	    });
-	else
-	    res.redirect('/');
+    	res.render('chat');
+	// if ('username' in req.cookies)
+	//     db.getMessages(function(doc){
+	// 	console.log(doc);
+	// 	res.locals.title = "Chat";
+	// 	res.render("chat", {result: doc});
+	//     });
+	// else
+	//     res.redirect('/');
     });
     
     // ============== SET STATUS =============
     app.get('/status', function(req, res) {
 	if ('username' in req.cookies) {
 	    res.locals.title = "Status";
+
 	    res.render('status');
 	} else {
 	    res.redirect('/');
@@ -95,15 +87,16 @@ module.exports = function(app, db) {
     app.post('/login', function(req, res) {
 	console.log(req.body);
 	var username = req.body.username;
-
-	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").indexOf(username) > -1) {
+    var password = req.body.password;
+    var password2 = req.body.password2;
+	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").toString().indexOf(username) > -1) {
 	    res.locals.failure = true;
-	    res.locals.message = "Password incorrect, please try again";
+	    res.locals.message = "Username Banned";
 	    res.locals.title = "Login";
 	    res.render('login');
 	}
 	
-	var password = req.body.password;
+	
 	function callback(result) {
 	    if (result == "Success") {
 		res.cookie('username', username, {maxAge:200000});
@@ -117,11 +110,16 @@ module.exports = function(app, db) {
 		res.render('login');
 		
 	    } else if (result == "User does not exist") {
-		db.addUser(username, password, function(done) {
-		    res.cookie('username', username, {maxAge:200000});
-		    req.session.message = "New user created: " + username;
-		    res.redirect('/home');
-		});
+	    	if(password2==password){
+				db.addUser(username, password, function(done) {
+		    	res.cookie('username', username, {maxAge:200000});
+		    	req.session.message = "New user created: " + username;
+		    	res.redirect('/home');
+				});
+	    	}
+	    	else
+	    		res.render('loginsignup',{username:username, password:password});	
+
 	    }
 	    console.log("call done:" + result);
 	}
@@ -131,6 +129,7 @@ module.exports = function(app, db) {
     // =========== POST STATUS ==============
     app.post('/status', function(req, res) {
 	console.log(req.body);
+	console.log(req.cookies['username']);
 	var status = req.body.status;
 	function callback(result) {
 	    if (result == "Success") {
@@ -142,6 +141,8 @@ module.exports = function(app, db) {
 		res.render('status');
 	    }
 	}
+	console.log("post status");
+	console.log(status);
 	db.setStatus(req.cookies['username'], status, callback);
     });
 

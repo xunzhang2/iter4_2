@@ -124,6 +124,4 @@ database.prototype.setStatus = function(username, status, call){
 	call("Success");
 },
 
-
-
 module.exports = database;

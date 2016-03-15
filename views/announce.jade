@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  header#top.header
+    .text-vertical-center
+      .list-group(style='width:20%; margin:auto')
+        ul#messagelist
+          for msg in result
+            li.btn.btn-dark.btn-lg.home-items=msg.username
+            li.btn.btn-dark.btn-lg.home-items=msg.message
+            li.btn.btn-dark.btn-lg.home-items=msg.timestamp
+          br
+        br
+      form#chatpage(style='width: 400px; margin: auto')
+        fieldset.form-group
+          label Please input your messages ;)
+          input.form-control(id='messages', type='text', placeholder='Messages')
+        button.btn.btn-primary(type='submit') SEND
+
+  script(src='js/cookies.js')
+  script(src='http://code.jquery.com/jquery-1.11.1.js')
+  script(src='/socket.io/socket.io.js')
+  script(src='js/announce.js')
+  

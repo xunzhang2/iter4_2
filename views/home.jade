@@ -9,12 +9,11 @@ block content
         .alert.alert-success(style='width:20%; margin:auto')
           a.close(href='#', data-dismiss='alert', aria-label='close') ×
           strong #{message}
-          |  Some status explanation here.
+          
       if(locals.failure)
         .alert.alert-danger(style='width:20%; margin:auto')
           a.close(href='#', data-dismiss='alert', aria-label='close') ×
           strong #{message}
-          |  Some status explanation here.
                             
     
       span Welcome, 
@@ -34,6 +33,8 @@ block content
         a.btn.btn-dark.btn-lg.home-items(href='/users')  View Directory
         br
         a.btn.btn-dark.btn-lg.home-items(href='/chat') Public Chat
+        br
+        a.btn.btn-dark.btn-lg.home-items(href='/announce') Announcement
         br
         a.btn.btn-dark.btn-lg.home-items(href='/status') Set Status
         br

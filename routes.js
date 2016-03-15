@@ -52,17 +52,27 @@ module.exports = function(app, db) {
 	    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
-    	res.render('chat');
-	// if ('username' in req.cookies)
-	//     db.getMessages(function(doc){
-	// 	console.log(doc);
-	// 	res.locals.title = "Chat";
-	// 	res.render("chat", {result: doc});
-	//     });
-	// else
-	//     res.redirect('/');
+	  if ('username' in req.cookies)
+	        db.getMessages(function(doc){
+	  	console.log(doc);
+	  	res.locals.title = "Chat";
+	 	res.render("chat", {result: doc});
+	     });
+	 else
+	     res.redirect('/');
     });
-    
+       // ============== ANNOUNCEMENT =============
+    app.get('/announce', function(req, res) {
+	if ('username' in req.cookies)
+	    db.getAnnouce(function(doc){
+		console.log(doc);
+		res.locals.title = "Post Announcement";
+		res.render("announce", {result: doc});
+	    });
+	else
+	    res.redirect('/');
+    });
+ 
     // ============== SET STATUS =============
     app.get('/status', function(req, res) {
 	if ('username' in req.cookies) {
@@ -94,6 +104,7 @@ module.exports = function(app, db) {
 	    res.locals.message = "Username Banned";
 	    res.locals.title = "Login";
 	    res.render('login');
+	    return;
 	}
 	
 	

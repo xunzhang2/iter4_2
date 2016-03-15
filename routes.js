@@ -143,7 +143,7 @@ module.exports = function(app, db) {
 		res.render('status');
 	    }
 	}
-	db.setStatus(req.cookies['username'], status, callback);
+	db.setStatus(status, req.cookies['username'], callback);
     });
 
 

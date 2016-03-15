@@ -1,7 +1,6 @@
 module.exports = function(io, db) {
 
   io.on("connection", function(socket){
-
     console.log('a user connected');
 //============================ PUBLIC CHAT =====================================
     // reveive new public message from user, send it to other users
@@ -26,7 +25,8 @@ module.exports = function(io, db) {
   //============================ DISCONNECT =====================================   
 
     socket.on('disconnect', function(){
-       console.log('user disconnected');
+
+       console.log('user disconnected: ');
     });
 
   });

@@ -1,38 +1,43 @@
 module.exports = function(app, db) {
-    
-    fs = require('fs');
     db.createDB();
-    // =========== INDEX PAGE  ==============
-    app.get('/', function(req, res) {
-	if ('username' in req.cookies)
-	    res.redirect('/home');
-	else 
-	    res.sendFile(__dirname + '/views/index.html');
-    });
 
-    // =========== LOGIN PAGE  ==============
-    app.get('/login', function(req, res) {
-	if ('username' in req.cookies) {
-	    res.redirect('/home');
-	} else {
-	    res.locals.title = "Login";
-	    res.render('login');
-	}
-    });
-
-    // =========== HOME PAGE  ==============
-    app.get('/home', function(req, res) {
-	if ('username' in req.cookies) {
-	    if (req.session.message) {
-		res.locals.success = true;
-		res.locals.message = req.session.message;
-		req.session.message = null;
+    // =========== REGISTER USER  ==============
+    app.post('/api/users', function(req, res) {
+	var username = req.body.username;
+	var password = req.body.password;
+	function callback(result) {
+	    if (result == "Success") {
+		res.status(200).send("Success");
+	    } else if (result == "Password Incorrect") {
+		res.status(400).send("Incorrect");
+	    } else if (result == "User does not exist") {
+		db.addUser(username, password, function(done) {
+		    res.status(201).send("Created");
+		});
 	    }
-	    res.locals.title = "Home";
-	    res.render('home');
-	} else {
-	    res.redirect('/');
+	    console.log("call done:" + result);
 	}
+	db.userExists(username, password, callback);	
+    });
+
+    // =========== Retrieve Users  ==============
+    app.get('/api/users', function(req, res) {	
+	function callback(result) {
+	    res.send(result);
+	}
+	db.getUsers(callback);
+    });
+
+    // =========== Public Message  ==============
+    app.post('/api/messages/public', function(req, res) {
+	var username  = req.body.username;
+	var message   = req.body.message;
+	var timestamp = req.body.timestamp
+	function callback(result) {
+	    
+	}
+	db.saveMessages(message, timestamp, username, callback);
+	
     });
 
     // ========== USER DIRECTORY ===========
@@ -97,8 +102,8 @@ module.exports = function(app, db) {
     app.post('/login', function(req, res) {
 	console.log(req.body);
 	var username = req.body.username;
-	var password = req.body.password;
-	var password2 = req.body.password2;
+    var password = req.body.password;
+    var password2 = req.body.password2;
 	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").toString().indexOf(username) > -1) {
 	    res.locals.failure = true;
 	    res.locals.message = "Username Banned";
@@ -122,14 +127,15 @@ module.exports = function(app, db) {
 		
 	    } else if (result == "User does not exist") {
 	    	if(password2==password){
-		    db.addUser(username, password, function(done) {
+				db.addUser(username, password, function(done) {
 		    	res.cookie('username', username, {maxAge:200000});
 		    	req.session.message = "New user created: " + username;
 		    	res.redirect('/home');
-		    });
-	    	} else {
-	    	    res.render('loginsignup',{username:username, password:password});
-		}
+				});
+	    	}
+	    	else
+	    		res.render('loginsignup',{username:username, password:password});	
+
 	    }
 	    console.log("call done:" + result);
 	}

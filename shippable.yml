@@ -1,17 +1,13 @@
-#set language
-language: node_js
-
-#set language version
 node_js:
-    - "0.10"
+   - "0.10"
 
-#services needed
-services:
-    - sqlite3
-    
-#environment variables
-#env:
+language:
+   node_js
+   
+before_script:
+  npm install
+  sudo npm install -g grunt-cli
 
-#matrix:
-
+script:
+  - grunt test
 

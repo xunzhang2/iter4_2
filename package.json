@@ -11,10 +11,12 @@
 	"cookie-parser": "~1.0.0",
 	"express-session": "~1.0.0",
 	"expect.js": "^0.3.1",
-    "grunt": "^0.4.5",
-    "grunt-mocha-istanbul": "^3.0.1",
-    "grunt-mocha-test": "^0.12.7",
-    "mocha": "^2.4.5",
-    "mocha-junit-reporter": "^1.9.1"
+
+	"grunt": "^0.4.5",
+	"grunt-cli" : "0.1.13",
+	"grunt-mocha-istanbul": "^3.0.1",
+	"grunt-mocha-test": "^0.12.7",
+	"mocha": "^2.4.5",
+	"mocha-junit-reporter": "^1.9.1"
     }
 }

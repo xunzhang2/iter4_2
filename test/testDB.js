@@ -2,59 +2,87 @@ var expect = require('expect.js');
 var DB = require('../database.js');
 
 suite('Database Test',function(){
-
+    var db = new DB("test.db");
+    db.createDB("test.db");
+//====================================  TEST USER VALIDATION  ================================= 
   	test('Test new user', function(done){
-      var newDB = new DB();
       function callback(result) {
         expect(result).to.equal("User does not exist");
         done();
       }
-      newDB.userExists("meng2","1234",callback)
+      db.userExists("meng2","1234",callback)
+    });
+
+    test('Test adding user', function(done){
+      function callback(result) {
+        expect(result).to.equal("User created");
+        done();
+      }
+      db.addUser("meng","1234",callback)
     });
 
     test('Test existed user, password correct', function(done){
-    	var newDB = new DB();
       function callback(result) {
         expect(result).to.equal("Success");
         done();
       }
-      newDB.userExists("meng","1234",callback)
+      db.userExists("meng","1234",callback)
     });
 
     test('Test existed user, password not correct', function(done){
-      var newDB = new DB();
       function callback(result) {
         expect(result).to.equal("Password Incorrect");
         done();
       }
-      newDB.userExists("meng","12345",callback)
+      db.userExists("meng","12345",callback)
     });
-
+//====================================  TEST PRIVATE CHAT  ================================= 
     test('Test saving private messeges ', function(done){
-      var newDB = new DB();
       function callback(result) {
-        expect(result).to.be.an('array');
+        expect(result).to.equal("Private Messages Saved");
         done();
       }
-      newDB.getPriMsg("meng","meng1",callback)
+      db.savePriMsg("Alien!","2200","meng","meng1",callback)
     });
 
+    test('Test getting private messeges ', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal("Alien!");
+        done();
+      }
+      db.getPriMsg("meng","meng1",callback)
+    });
+//====================================  TEST ANNOUNCEMENTS  =================================    
     test('Tests saving announcement', function(done){
-      var newDB = new DB();
       function callback(result) {
-        expect(result).to.be.an('array');
+        expect(result).to.equal("Annoucement Saved");
         done();
       }
-      newDB.getAnnouce(callback)
+      db.saveAnnouce("Careful!", "2016","admin", callback)
     });
 
-    test('Test setting status', function(done){
-      var newDB = new DB();
+    test('Tests getting announcement', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal("Careful!");
+        done();
+      }
+      db.getAnnouce(callback)
+    });
+//====================================  TEST USER STATUS  ================================= 
+   test('Test setting status', function(done){
       function callback(result) {
         expect(result).to.equal("Success");
         done();
       }
-      newDB.setStatus("Help","meng",callback)
+      db.setStatus("meng","Help",callback)
+    });  
+
+    test('Test getting status', function(done){
+      function callback(result) {
+        expect(result[0]["status"]).to.equal("Help");
+        done();
+      }
+      db.getUsers(callback)
     });
   
   	 

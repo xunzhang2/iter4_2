@@ -13,7 +13,7 @@ var session      = require('express-session');
 var routes = require('./routes');
 var DATABASE = require('./database.js');
 // set up database
-var db = new DATABASE();
+var db = new DATABASE("database.db");
 
 app.use(bodyParser());
 app.use(cookieParser());

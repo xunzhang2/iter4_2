@@ -1,20 +1,21 @@
 var sqlite3 = require("sqlite3").verbose();
 var fs      = require("fs");
-function database() {
-    this.db = new sqlite3.Database("database.db");
+function database(filename) {
+    this.db = new sqlite3.Database(filename);
 } 
 
 //=================================== DB INITIALIZATION ============================================= 
 
-database.prototype.createDB = function(){
-	if(fs.existsSync("database.db") == false) {
+database.prototype.createDB = function(filename){
+	if(fs.existsSync(filename) == false) {
 			console.log("Creating DB file.");
-			fs.openSync("database.db","w");
+			fs.openSync(filename,"w");
 		}
 
 		 this.db.run("CREATE TABLE IF NOT EXISTS Citizens (" + 
 				      "username TEXT NOT NULL, " + 
 				      "password TEXT NOT NULL, " +
+				      "connection TEXT, " +
 				      "status TEXT )");
 
     	 this.db.run("CREATE TABLE IF NOT EXISTS Messages (" + 

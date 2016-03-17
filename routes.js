@@ -1,7 +1,7 @@
 module.exports = function(app, db) {
     
     fs = require('fs');
-    db.createDB();
+    db.createDB("database.db");
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
 	if ('username' in req.cookies)

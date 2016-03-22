@@ -24,6 +24,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 require('./socket.js')(io, db);
 require('./routes.js')(app, db);
+require('./api.js')(app, db);
 
 
 // Start application

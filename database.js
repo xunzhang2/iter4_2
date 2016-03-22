@@ -83,7 +83,7 @@ database.prototype.getMessages = function(callback){
 //
 database.prototype.saveMessages = function(messages, timestamp, username, call){
     this.db.run("INSERT INTO Messages(message, timestamp, username) VALUES (?, ?, ?)", messages, timestamp, username);
-    	call("Messages Saved");
+    call("Messages Saved");
 },
 
 //============================  POST ANNOUNCEMENT  ===================================
@@ -121,8 +121,16 @@ database.prototype.savePriMsg = function(messages, timestamp, user1, user2, call
 
 //=================================  SHARE STATUS  ===================================
 database.prototype.setStatus = function(username, status, call){
-    this.db.run("UPDATE Citizens SET status = '" +status+ "' WHERE username = '" +username+ "';");
-	call("Success");
+    this.db.run("UPDATE Citizens SET status = '" +status+ "' WHERE username = '" +username+ "';", function(err) {
+	console.log(this.changes);
+	if (this.changes) {
+	    call("Success");
+	} else {
+	    call("Error");
+	}
+    });
 },
 
+
+// SEARCH: "SELECT [col] FROM [table] WHERE [col] LIKE "%[keyword]%" OR [col]='value';
 module.exports = database;

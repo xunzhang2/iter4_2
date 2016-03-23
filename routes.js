@@ -1,7 +1,11 @@
-module.exports = function(app, db) {
+module.exports = function(app, db, testDB) {
     
     fs = require('fs');
     db.createDB("database.db");
+    testDB.createDB("testdb.db");
+    //measure performance
+    var get_num  = 0;
+    var post_num = 0;
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
 	if ('username' in req.cookies)
@@ -263,6 +267,27 @@ module.exports = function(app, db) {
 	}
     });
 
+    //========== MEASURE PERFORMANCE ============
+    app.get('/measure', function(req, res){
+    res.render('performance');
+    });
+    
+    app.get('/measurechat', function(req, res) {
+        get_num++;
+        console.log("GET requests: "+get_num);
+        db.getMessages(function(doc){
+		  res.locals.title = "Chat";
+		  res.render("chat", {result: doc});
+	    });
+    });
+
+    app.post('/measurechat', function(req, res) {
+    	post_num++;
+    	console.log("POST requests: "+post_num);
+	    testDB.saveMessages("lala","2016","meng",function(done) {
+          console.log(done);
+        });
+    });
 
     
 

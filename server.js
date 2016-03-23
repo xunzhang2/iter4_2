@@ -14,6 +14,7 @@ var routes = require('./routes');
 var DATABASE = require('./database.js');
 // set up database
 var db = new DATABASE("database.db");
+var testDB = new DATABASE("testDB.db");
 
 app.use(bodyParser());
 app.use(cookieParser());
@@ -23,7 +24,7 @@ app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 require('./socket.js')(io, db);
-require('./routes.js')(app, db);
+require('./routes.js')(app, db, testDB);
 require('./api.js')(app, db);
 
 

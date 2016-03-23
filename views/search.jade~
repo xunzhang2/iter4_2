@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  header#top.header
+    .text-vertical-center
+      h1  Search
+      form.form-signin(style='width:70%; margin:auto;', action='/search', method='post', enctype='application/json')
+        .radio(style='float:left;')
+          label(style='font-size:200%')
+            input(type='radio', name='target', value='Users')
+            | User
+        div(style='float:left;')
+          input#username.form-control.input-lg(type='text', placeholder='Name', name='username')
+        br(style='clear:both;')
+        .radio(style='float:left;')
+          label(style='font-size:200%')
+            input(type='radio', name='target', value='Status')
+            | Status
+        .form-group(style='float:left;')
+          select#code.form-control
+            option(selected='', disabled='') Codes
+            option OK
+            option Help
+            option Emergency
+        br(style='clear:both;')
+        .radio(style='float:left;')
+          label(style='font-size:200%')
+            input(type='radio', name='target', value='Anouncements')
+            | Announcements
+        div(style='float:left;')
+          input#Announcements.form-control.input-lg(type='text', placeholder='Keywords', name='keyword')
+        br(style='clear:both;')
+        .radio(style='float:left;')
+          label(style='font-size:200%')
+            input(type='radio', name='target', value='Public')
+            | Public Messages
+        div(style='float:left;')
+          input#Public.form-control.input-lg(type='text', placeholder='Keywords', name='keyword')
+        br(style='clear:both;')
+        .radio(style='float:left;')
+          label(style='font-size:200%')
+            input(type='radio', name='target', value='Private')
+            | Private Messages
+        div(style='float:left;')
+          input#Private.form-control.input-lg(type='text', placeholder='Keywords', name='keyword')
+        br(style='clear:both;')
+        button.btn.btn-lg.btn-primary.btn-block(type='submit', style='width:50%; margin:auto') Search
+

@@ -133,4 +133,42 @@ database.prototype.setStatus = function(username, status, call){
 
 
 // SEARCH: "SELECT [col] FROM [table] WHERE [col] LIKE "%[keyword]%" OR [col]='value';
+database.prototype.searchUsers = function(username, call) {
+    var query = "SELECT username FROM Citizens WHERE username LIKE '%" + username + "%';";
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
+},
+
+database.prototype.searchStatus = function(status, call) {
+    var query = "SELECT username, status FROM Citizens WHERE status LIKE '%" + status + "%';";
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
+},
+
+database.prototype.searchAnnouncements = function(keywords, call) {
+    var query = "SELECT * FROM Announ WHERE message LIKE '%" + keywords.join("%' OR message LIKE '%") + "%';";
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
+},
+
+
+database.prototype.searchPublic = function(keywords, call) {
+    var query = "SELECT * FROM Messages WHERE message LIKE '%" + keywords.join("%' OR message LIKE '%") + "%';";
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
+},
+
+
 module.exports = database;

@@ -52,14 +52,14 @@ module.exports = function(app, db) {
 	    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
-	  if ('username' in req.cookies)
-	        db.getMessages(function(doc){
+	if ('username' in req.cookies)
+	    db.getMessages(function(doc){
 	  	console.log(doc);
 	  	res.locals.title = "Chat";
 	 	res.render("chat", {result: doc});
-	     });
-	 else
-	     res.redirect('/');
+	    });
+	else
+	    res.redirect('/');
     });
        // ============== ANNOUNCEMENT =============
     app.get('/announce', function(req, res) {
@@ -77,7 +77,6 @@ module.exports = function(app, db) {
     app.get('/status', function(req, res) {
 	if ('username' in req.cookies) {
 	    res.locals.title = "Status";
-
 	    res.render('status');
 	} else {
 	    res.redirect('/');
@@ -138,7 +137,6 @@ module.exports = function(app, db) {
 
     // =========== POST STATUS ==============
     app.post('/status', function(req, res) {
-	console.log(req.body);
 	console.log(req.cookies['username']);
 	var status = req.body.status;
 	function callback(result) {
@@ -157,7 +155,115 @@ module.exports = function(app, db) {
     });
 
 
-    
+    // =============== SEARCH =================
+    app.get('/search', function(req, res) {
+	if ('username' in req.cookies) {
+	    function callback(result) {
+		res.locals.title = "Search";
+		res.locals.others=result;
+		res.locals.current=req.cookies['username'];
+		res.render('search');
+	    }
+	    db.getUsers(callback);
+	    
+	} else
+	    res.redirect('/');
+    });
+
+    // =============== SEARCH =================
+    app.post('/search', function(req, res) {
+	function nonStop(word) {
+	    return fs.readFileSync('./stop_words.txt', 'utf8').split(",").toString().indexOf(word) == -1;
+	}
+	
+	console.log(req.body);
+	var target = req.body.target;
+	if (target == "Users") {
+	    console.log("searching users");
+	    function usercall(result) {
+		if (result.length) {
+		    console.log("search : " + result);
+		    res.locals.title = "Results";
+		    res.locals.users=result;
+		    res.render('search');
+		} else {
+		    function errorcall(result) {
+			res.locals.title = "Result";
+			res.locals.others=result;
+			res.locals.current=req.cookies['username'];
+			res.locals.failure = true;
+			res.locals.message = "No matching users found.";
+			res.render('search');
+		    }
+		    db.getUsers(errorcall);
+		}
+	    }
+	    db.searchUsers(req.body.username, usercall);
+	    
+	} else if (target == "Status") {
+	    console.log("searching statuses");
+	    function statuscall(result) {
+		if (result.length) {
+		    console.log("search : " + result);
+		    res.locals.title = "Results";
+		    res.locals.status=result;
+		    res.render('search');
+		} else {
+		    function errorcall(result) {
+			res.locals.title = "Result";
+			res.locals.others=result;
+			res.locals.current=req.cookies['username'];
+			res.locals.failure = true;
+			res.locals.message = "No matching statuss found.";
+			res.render('search');
+		    }
+		    db.getUsers(errorcall);
+		}
+	    }
+	    db.searchStatus(req.body.code, statuscall);
+	    
+	} else if (target == "Announcements") {
+	    console.log("searching announcements");
+	    function announcall(result) {
+		if (result.length) {
+		    console.log("search : " + result);
+		    res.locals.title = "Results";
+		    res.locals.msgs=result;
+		    res.render('search');
+		} else {
+		    function errorcall(result) {
+			res.locals.title = "Result";
+			res.locals.others=result;
+			res.locals.current=req.cookies['username'];
+			res.locals.failure = true;
+			res.locals.message = "No matching announcements found.";
+			res.render('search');
+		    }
+		    db.getUsers(errorcall);
+		}		    
+	    }
+	    var keywords = req.body.keyword[0].split(" ").filter(nonStop);
+	    db.searchAnnouncements(keywords, announcall);
+	    
+	} else if (target == "Public" ) {
+
+	} else if (target == "Private") {
+
+	} else {
+	    console.log("nothing selected");
+	    function errorcall(result) {
+		res.locals.title = "Result";
+		res.locals.others=result;
+		res.locals.current=req.cookies['username'];
+		res.locals.failure = true;
+		res.locals.message = "An error happened, please try again.";
+		res.render('search');
+	    }
+	    db.getUsers(errorcall);
+	}
+    });
+
+
     
 
     //returns current time

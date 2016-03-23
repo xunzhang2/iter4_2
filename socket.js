@@ -1,4 +1,3 @@
-
 module.exports = function(io, db) {
 
   io.on("connection", function(socket){
@@ -9,6 +8,7 @@ module.exports = function(io, db) {
       io.emit("broadcastPublicMessage", data);
       db.saveMessages(data.message, current_time(), data.name, function(){});
     });
+
 //============================ PRIVATE CHAT =====================================
 
     socket.on("joinRoom",function(data){
@@ -33,6 +33,7 @@ module.exports = function(io, db) {
   //============================ DISCONNECT =====================================   
 
     socket.on('disconnect', function(){});
+
 
   });
 

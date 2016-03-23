@@ -17,6 +17,7 @@ var DATABASE = require('./database.js');
 var db = new DATABASE("database.db");
 var testDB = new DATABASE("testdb.db");
 
+
 app.use(bodyParser());
 app.use(cookieParser());
 app.use(session({ secret: 'sessionsecret' }));
@@ -24,8 +25,10 @@ app.use(session({ secret: 'sessionsecret' }));
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
-require('./socket.js')(io, db, testDB);
+
+require('./socket.js')(io, db);
 require('./routes.js')(app, db, testDB);
+require('./api.js')(app, db);
 
 
 // Start application

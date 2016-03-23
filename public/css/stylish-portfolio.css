@@ -236,6 +236,7 @@ hr.small {
 
 footer {
     padding: 100px 0;
+<<<<<<< HEAD
 }
 
 
@@ -245,3 +246,6 @@ ul#nav li{display:inline; height:60px}
 ul#nav li a{display:inline-block; padding:0 20px; height:60px; line-height:60px;
  color:#000000; font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif; font-size:16px; text-decoration: none} 
 ul#nav li a:hover{background:#02DF82}
+=======
+}
+>>>>>>> 6bf3d732800bc8acd4958bf7cf120cfc1e4a108a

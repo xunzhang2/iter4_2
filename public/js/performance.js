@@ -61,6 +61,7 @@ var current_time = function() {
 
 
 
+
 function timeout_get() {
     myGet = setTimeout(function () {
         xhttp.open("GET", "/measurechat", true);

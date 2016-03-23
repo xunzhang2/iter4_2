@@ -1,12 +1,8 @@
-
-
 socket = io();
 username=getCookie('username');
 
-
 //attach new messages on message list
 socket.on('broadcastPublicMessage',function(data){
-	console.log("==="+data);
 	var message = data.message;
     var name = data.name;  // do not mix with username here!!
     var date=new Date();
@@ -27,8 +23,6 @@ socket.on('broadcastPrivateMessage',function(data){
 		console.log("receiver=%s, username=%s",receiver,username);
 	}
 });
-
-
 
 //get messages from jade, send it to server
 function sendpublicmessage(){

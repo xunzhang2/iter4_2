@@ -184,5 +184,16 @@ database.prototype.searchPublic = function(keywords, call) {
     });
 },
 
+database.prototype.searchPrivate = function(keywords, user1, user2, call) {
+    var query = "SELECT * FROM PriMsg WHERE message LIKE '%" + keywords.join("%' OR message LIKE '%") + "%' AND (sender='" + user1 +"' OR sender='" + user2 + "') AND (receiver='" + user1 +"' OR receiver='" + user2 +"');";
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
+},
+
+
+
 
 module.exports = database;

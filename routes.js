@@ -12,7 +12,7 @@ module.exports = function(app, db, testDB) {
 	if ('username' in req.cookies)
 	    res.redirect('/users');
 	else 
-	    res.sendFile(__dirname + '/views/index.html');
+	    res.redirect('/login');
     });
 
     // =========== LOGIN PAGE  ==============
@@ -142,7 +142,9 @@ module.exports = function(app, db, testDB) {
     
     // ============== LOGOUT =============
     app.get('/logout', function(req, res) {
+	res.cookie('username', '', {expires:new Date(1)});
 	res.clearCookie('username');
+	req.session.destroy();
 	res.redirect('/');
     });
 
@@ -225,93 +227,99 @@ module.exports = function(app, db, testDB) {
     // =============== SEARCH =================
     app.post('/search', function(req, res) {
 	function nonStop(word) {
-	    return fs.readFileSync('./stop_words.txt', 'utf8').split(",").toString().indexOf(word) == -1;
+	    return fs.readFileSync('./stop_words.txt', 'utf8').trim().split(",").indexOf(word) == -1 && word != "";
+	}
+
+	function error(msg) {
+	    function errorcall(result) {
+		res.locals.title = "Result";
+		res.locals.others=result;
+		res.locals.current=req.cookies['username'];
+		res.locals.failure = true;
+		res.locals.message = msg;
+		res.render('search');
+	    }
+	    db.getUsers(errorcall);
 	}
 	
 	console.log(req.body);
 	var target = req.body.target;
 	if (target == "Users") {
 	    console.log("searching users");
-	    function usercall(result) {
-		if (result.length) {
-		    console.log("search : " + result);
-		    res.locals.title = "Results";
-		    res.locals.users=result;
-		    res.render('search');
-		} else {
-		    function errorcall(result) {
-			res.locals.title = "Result";
-			res.locals.others=result;
-			res.locals.current=req.cookies['username'];
-			res.locals.failure = true;
-			res.locals.message = "No matching users found.";
+	    if (!req.body.username) {
+		error("No username specified");
+	    } else {
+		function usercall(result) {
+		    if (result.length) {
+			res.locals.title = "Results";
+			res.locals.users=result;
 			res.render('search');
+		    } else {
+			error("No matching users found");
 		    }
-		    db.getUsers(errorcall);
 		}
+		db.searchUsers(req.body.username, usercall);
 	    }
-	    db.searchUsers(req.body.username, usercall);
 	    
 	} else if (target == "Status") {
 	    console.log("searching statuses");
-	    function statuscall(result) {
-		if (result.length) {
-		    console.log("search : " + result);
-		    res.locals.title = "Results";
-		    res.locals.status=result;
-		    res.render('search');
-		} else {
-		    function errorcall(result) {
-			res.locals.title = "Result";
-			res.locals.others=result;
-			res.locals.current=req.cookies['username'];
-			res.locals.failure = true;
-			res.locals.message = "No matching statuss found.";
+	    if (!req.body.code) {
+		error("No status code selected");
+	    } else {
+		function statuscall(result) {
+		    if (result.length) {
+			res.locals.title = "Results";
+			res.locals.status=result;
 			res.render('search');
+		    } else {
+			error("No matching statuses found");
 		    }
-		    db.getUsers(errorcall);
 		}
+		db.searchStatus(req.body.code, statuscall);
 	    }
-	    db.searchStatus(req.body.code, statuscall);
-	    
-	} else if (target == "Announcements") {
-	    console.log("searching announcements");
-	    function announcall(result) {
+	} else if (target == "Announcements" || target == "Public" || target == "Private") {
+	    function msgcall(result) {
 		if (result.length) {
-		    console.log("search : " + result);
 		    res.locals.title = "Results";
 		    res.locals.msgs=result;
 		    res.render('search');
 		} else {
-		    function errorcall(result) {
-			res.locals.title = "Result";
-			res.locals.others=result;
-			res.locals.current=req.cookies['username'];
-			res.locals.failure = true;
-			res.locals.message = "No matching announcements found.";
-			res.render('search');
-		    }
-		    db.getUsers(errorcall);
+		    error("No matching announcements found");
 		}		    
 	    }
-	    var keywords = req.body.keyword[0].split(" ").filter(nonStop);
-	    db.searchAnnouncements(keywords, announcall);
-	    
-	} else if (target == "Public" ) {
 
-	} else if (target == "Private") {
+	    if (target == "Announcements") {
+		var keywords = req.body.keyword[0].split(" ").filter(nonStop);
+		if (!keywords.length) {
+		    error("Either no keywords specified or only stop words specificed");
+		} else {
+		    console.log("search announcements for: " + keywords);
+		    db.searchAnnouncements(keywords, msgcall);
+		}
+
+	    } else if (target == "Public") {
+		var keywords = req.body.keyword[1].split(" ").filter(nonStop);
+		if (!keywords.length) {
+		    error("Either no keywords specified or only stop words specificed");
+		} else {
+		    console.log("search public messages for: " + keywords);
+		    db.searchPublic(keywords, msgcall);
+		}
+
+	    } else {
+		var k = req.body.keyword[2].split(" ").filter(nonStop);
+		console.log(k.length);
+		console.log(!k.length);
+		if (!k.length || !req.body.others) {
+		    error("Please enter acceptable keywords and select private chat user");
+		} else {
+		    console.log("search private messages for: " + k);
+		    db.searchPrivate(k, req.body.others, req.cookies['username'], msgcall);
+		}
+	    }
 
 	} else {
-	    console.log("nothing selected");
-	    function errorcall(result) {
-		res.locals.title = "Result";
-		res.locals.others=result;
-		res.locals.current=req.cookies['username'];
-		res.locals.failure = true;
-		res.locals.message = "An error happened, please try again.";
-		res.render('search');
-	    }
-	    db.getUsers(errorcall);
+	    error("No search target selected");
 	}
     });
 

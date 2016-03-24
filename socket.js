@@ -16,12 +16,7 @@ module.exports = function(io, db) {
         map.set(data.name, JSON.stringify(newlist));
 
       }
-  
-       var test = map.get("meng1");
-       console.log("for test: "+ test);
-       
        console.log("online users "+map.keys()); 
-
     });
 
     socket.on('usersListReq', function(){

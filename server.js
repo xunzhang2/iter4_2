@@ -36,3 +36,5 @@ var PORT = 3000;
 http.listen(PORT, function () {
     console.log('Server listening at port %d', PORT);
 });
+
+module.exports = app;

@@ -46,7 +46,7 @@ module.exports = function(app, db) {
 	var message   = req.body.message;
 	var timestamp = req.body.timestamp
 	function callback(result) {
-	    if (result == "Success") {
+	    if (result == "Messages Saved") {
 		res.status(201).send("Message Created");
 	    } else {
 		res.status(404).send("Not Found");
@@ -57,7 +57,7 @@ module.exports = function(app, db) {
     });
 
     // =========== Get Public Message  ==============    
-    app.get('api/messages/public', function(req, res) {
+    app.get('/api/messages/public', function(req, res) {
 	function callback(result) {
 	    res.send(result);
 	}

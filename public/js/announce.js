@@ -1,5 +1,10 @@
 var socket = io();
 
+//send username to the server
+socket.on('connect', function (data) {
+   socket.emit('usersList', { name: getCookie('username') });
+});
+
 //get messages from jade, send it to server
 $('form').submit(function(){
 	var message = $('#messages').val();

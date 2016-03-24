@@ -1,6 +1,12 @@
 socket = io();
 username=getCookie('username');
 
+//send username to the server
+socket.on('connect', function (data) {
+   socket.emit('usersList', { name: getCookie('username') });
+});
+
+
 //attach new messages on message list
 socket.on('broadcastPublicMessage',function(data){
 	var message = data.message;

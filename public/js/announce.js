@@ -15,7 +15,5 @@ $('form').submit(function(){
 
 //attach new messages on the message list
 socket.on('newAnn',function(data){
-	$('#messagelist').append($('<li class = "btn btn-dark btn-lg home-items">').text(data.name));
-	$('#messagelist').append($('<li class = "btn btn-dark btn-lg home-items">').text(data.msg));
-	$('#messagelist').append($('<li class = "btn btn-dark btn-lg home-items">').text(data.time));
+    $('#messagelist').append('<li id="msg"><b style="float:left;font-size:150%;">' + data.name + '</b><p style="float:right">' + data.time + '</p><br/> <h3>' + data.msg + '</h3><hr/></li>');
 });

@@ -63,24 +63,23 @@ module.exports = function(io, db) {
        deleteID(socket.id);
        console.log('user disconnected');
     });
-
  });
 
  //delete offline users
     var deleteID = function(id) {
-      map.forEach(function(value, key) {
-          if (value.includes(id)) {
-            console.log("test includs: " + key);
-            var newvalue = value.replace(id, '');
-            map.set(key,newvalue);
-            if(!newvalue.match(/[a-z]/i)){
-        //      offlineusers.push(key);
-              map.remove(key);
+	map.forEach(function(value, key) {
+            if (value.includes(id)) {
+		console.log("test includs: " + key);
+		var newvalue = value.replace(id, '');
+		map.set(key,newvalue);
+		if(!newvalue.match(/[a-z]/i)){
+		    //      offlineusers.push(key);
+		    map.remove(key);
+		}
             }
-          }
-      });
+	});
     }
-
+    
 //returns current time
   var current_time = function() {
     var d = new Date(Date.now());

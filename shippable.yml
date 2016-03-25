@@ -1,14 +1,17 @@
 node_js:
-   - 4.1.2
+  - 4.1.2
 
 language:
-   node_js
+  node_js
 
 before_install:
   - npm install -g grunt-cli mocha istanbul
 
+install:
+  - npm install
+
 script:
-    - grunt test
+  - grunt shippable
 
 # The path for Xunit to output test reports
 env:
@@ -21,4 +24,4 @@ before_script:
 
 # Tell istanbul to generate a coverage reportz
 after_script:
-     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/
+  - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/

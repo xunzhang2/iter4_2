@@ -1,4 +1,3 @@
-
 // Setup express server
 var express = require('express');
 var app     = express();
@@ -16,7 +15,8 @@ var DATABASE = require('./database.js');
 // set up database
 var db = new DATABASE("database.db");
 var testDB = new DATABASE("testdb.db");
-
+// flag of measuring performance
+var isMeasuringPerformance=false;
 
 app.use(bodyParser());
 app.use(cookieParser());
@@ -26,8 +26,9 @@ app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/views'));
 
-require('./socket.js')(io, db);
+
 require('./routes.js')(app, db, testDB);
+require('./socket.js')(io, db);
 require('./api.js')(app, db);
 
 
@@ -36,3 +37,4 @@ var PORT = 3000;
 http.listen(PORT, function () {
     console.log('Server listening at port %d', PORT);
 });
+

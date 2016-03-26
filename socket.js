@@ -3,24 +3,35 @@ module.exports = function(io, db) {
 
   var map = new HashMap();
   io.on("connection", function(socket){
-    console.log('a user connected');
-//============================ store clients =====================================
+//============================ collect online users  =====================================
     socket.on('usersList', function (data) {
       if(map.has(data.name)){
-        var list = JSON.parse(map.get(data.name));
+        var list = map.get(data.name);
         list.push(socket.id);
-        map.set(data.name,JSON.stringify(list));
+        map.set(data.name,list);
       }else{
         var newlist = [];
         newlist.push(socket.id);
-        map.set(data.name, JSON.stringify(newlist));
-
+        map.set(data.name, newlist);
       }
+  
        console.log("online users "+map.keys()); 
     });
-
+//============================ send userlist   =====================================
     socket.on('usersListReq', function(){
-         socket.emit('usersListRes', map.keys());
+
+          for (x in map.keys()){
+            db.setOnOff(map.keys()[x], "online");
+          }
+         function callback(result) {
+            socket.emit('alllUsers', result);
+            
+            for(x in result){
+               console.log(result[x].username+" "+ result[x].onoff);
+            }
+            
+         }
+         db.getUsers(callback);
     });
 
     
@@ -56,26 +67,23 @@ module.exports = function(io, db) {
 
     socket.on('disconnect', function(){
        deleteID(socket.id);
-       console.log('user disconnected');
     });
-
  });
 
  //delete offline users
     var deleteID = function(id) {
-      map.forEach(function(value, key) {
-          if (value.includes(id)) {
-            console.log("test includs: " + key);
-            var newvalue = value.replace(id, '');
-            map.set(key,newvalue);
-            if(!newvalue.match(/[a-z]/i)){
-        //      offlineusers.push(key);
-              map.remove(key);
-            }
-          }
-      });
-    }
+       map.forEach(function(value, key) {
+           if( value.indexOf(id) > -1){
+              value = value.splice(value.indexOf(id), value.indexOf(id));
+              if(value.length < 1){
+                db.setOnOff(key,"offline");
+                map.remove(key);
+              }
+           }
 
+       });
+    }
+    
 //returns current time
   var current_time = function() {
     var d = new Date(Date.now());

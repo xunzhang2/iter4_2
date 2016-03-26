@@ -6,19 +6,11 @@ block content
     .text-vertical-center
       h1  Directory
       br
-      table(style='width:50%; margin:auto')
-        each user in result
-          tr 
-            td 
-              a.btn.btn-dark.btn-lg.home-items(href='/privatechat?receiver='+user.username)=user.username 
+      div#onlineusers
+      div#offlineusers
 
-            td 
-              if (!user.status) 
-                a.btn.btn-dark.btn-lg.home-items(disabled='')="Status not set"
-              else
-                a.btn.btn-dark.btn-lg.home-items=user.status
-            td
+        
 
   script(src='http://code.jquery.com/jquery-1.11.1.js')
   script(src='/socket.io/socket.io.js')
-  script(src='js/users.js')
+  script(src='js/user.js')

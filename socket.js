@@ -7,7 +7,9 @@ module.exports = function(io, db) {
 
   var map = new HashMap();
   io.on("connection", function(socket){
+
 //============================ collect online users  =====================================
+
     socket.on('usersList', function (data) {
       if(map.has(data.name)){
         var list = map.get(data.name);

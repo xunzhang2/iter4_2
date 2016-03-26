@@ -9,10 +9,13 @@ block content
         br
 
         ul#messagelist
-          for msg in result
-            li.btn.btn-dark.btn-lg.home-items=msg.username
-            li.btn.btn-dark.btn-lg.home-items=msg.message
-            li.btn.btn-dark.btn-lg.home-items=msg.timestamp
+          each msg in result
+            li#msg
+              b(style='float:left; font-size:150%;')=msg.username
+              p(style='float:right')=msg.timestamp
+              br
+              h3=msg.message
+              hr
         br
         
         form#chatpage(style='width: 50%; margin: auto')

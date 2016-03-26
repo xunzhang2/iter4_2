@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  include navigator
   header#top.header
     .text-vertical-center
     
@@ -13,7 +14,7 @@ block content
       h1  Search
       if (locals.others)
         form.form-signin(style='width:30%; margin:auto;', action='/search', method='post', enctype='application/json')
-          .radio(style='float:left;')
+          .radio(style='float:left;', required='')
             label(style='font-size:200%')
               input(type='radio', name='target', value='Users')
               | User
@@ -96,18 +97,18 @@ block content
         a.btn.btn-dark.btn-lg.home-items(href='/search') Search Again                     
 
       if (locals.msgs)
-        table(style='width:20%; margin:auto')
+        ul(style='width:50%; margin:auto')#messagelist
           each msg in msgs
-            tr 
-              td 
-                a.btn.btn-dark.btn-lg.home-items=msg.username
-              td 
-                a.btn.btn-dark.btn-lg.home-items=msg.message
-              td 
-                a.btn.btn-dark.btn-lg.home-items=msg.timestamp
-              td 
+            li#msg
+              b(style='float:left; font-size:150%;')=msg.username
+              if msg.sender
+                b(style='float:left; font-size:150%;')=msg.sender
+              p(style='float:right')=msg.timestamp
+              br
+              h3=msg.message
+              hr
+              
         br
         a.btn.btn-dark.btn-lg.home-items(href='/search') Search Again       
               
 
-      a.btn.btn-dark.btn-lg.home-items(href='/home') Home

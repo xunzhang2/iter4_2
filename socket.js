@@ -1,10 +1,37 @@
+var HashMap = require('hashmap');
 module.exports = function(io, db) {
   // console.log("initial: isMeasuringPerformance=" + isMeasuringPerformance);
 // var file=require('./routes.js');
 // var flag=file.flag;
 // console.log("flag="+flag);
 
+  var map = new HashMap();
   io.on("connection", function(socket){
+
+    console.log('a user connected');
+//============================ store clients =====================================
+    socket.on('usersList', function (data) {
+      if(map.has(data.name)){
+        var list = JSON.parse(map.get(data.name));
+        list.push(socket.id);
+        map.set(data.name,JSON.stringify(list));
+      }else{
+        var newlist = [];
+        newlist.push(socket.id);
+        map.set(data.name, JSON.stringify(newlist));
+
+      }
+  
+       var test = map.get("meng1");
+       console.log("for test: "+ test);
+       
+       console.log("online users "+map.keys()); 
+
+    });
+
+    socket.on('usersListReq', function(){
+         socket.emit('usersListRes', map.keys());
+    });
 
 //============================ PUBLIC CHAT =====================================
     // reveive new public message from user, send it to other users
@@ -40,13 +67,27 @@ module.exports = function(io, db) {
     });
   //============================ DISCONNECT =====================================   
 
-    socket.on('disconnect', function(){});
+    socket.on('disconnect', function(){
+       deleteID(socket.id);
+       console.log('user disconnected');
+    });
+ });
 
 
-  });
-
-
-
+ //delete offline users
+    var deleteID = function(id) {
+	map.forEach(function(value, key) {
+            if (value.includes(id)) {
+		console.log("test includs: " + key);
+		var newvalue = value.replace(id, '');
+		map.set(key,newvalue);
+		if(!newvalue.match(/[a-z]/i)){
+		    //      offlineusers.push(key);
+		    map.remove(key);
+		}
+            }
+	});
+    }
 
 //returns current time
   var current_time = function() {

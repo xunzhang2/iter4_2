@@ -4,13 +4,13 @@ username=getCookie('username'); // sender
 receiver=$('#receive').html();
 console.log("receiver "+receiver);
 
-
 socket.on('connect', function () {
     sessionId = socket.io.engine.id;
     console.log('Connected private' + sessionId);
     var roomname=username<receiver?username.concat(receiver):receiver.concat(username);
     console.log(roomname);
     socket.emit('joinRoom', {room:roomname});
+    socket.emit('usersList', { name: getCookie('username') });
   });
 
 //attach new messages on message list

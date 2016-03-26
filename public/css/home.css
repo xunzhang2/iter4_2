@@ -7,3 +7,12 @@
     border-color: black;
 }
 
+li#msg {
+    background: AliceBlue ;
+}
+li#msg:nth-child(odd) {
+    background: MintCream ;
+}
+ul{
+    list-style-type: none;
+}

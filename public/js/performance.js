@@ -11,7 +11,7 @@ var t1,t2;
 var elapsedTime=0;
 var elapsedTime_get=0;
 var elapsedTime_post=0;
-var limit=100;
+var limit=1000;
 
 function startMeasurement(){
     console.log("click start");

@@ -87,15 +87,10 @@ database.prototype.saveMessages = function(messages, timestamp, username, call){
     call("Messages Saved");
 },
 
-//============================  TEST  ===================================
-database.prototype.getMessageByTimestamp = function(timestamp, callback){
-	var query = "SELECT * FROM Messages WHERE timestamp='" + timestamp + "'";	
-	this.db.all(query, function(err, rows){
-		if(err)
-			console.log(err);		
-		else
-			callback(rows);
-	});
+// //============================  TEST  ===================================
+database.prototype.deleteAllMessages = function() {
+    var query = "DELETE FROM Messages;";
+    this.db.run(query);
 },
 
 //============================  POST ANNOUNCEMENT  ===================================
@@ -204,4 +199,7 @@ database.prototype.searchPrivate = function(keywords, user1, user2, call) {
 
 
 
+
+
 module.exports = database;
+

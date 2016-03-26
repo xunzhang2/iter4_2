@@ -28,6 +28,21 @@ $(document).on('ready', init);
 
 //get messages from jade, send it to server
 function sendprivatemessage(){
+        $.ajax({
+      url:  '/isbusy',
+      type: 'GET',
+      async: false,
+      cache: false,
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function (data) {
+        console.log("data="+data.start);
+        if(data.start)
+            // document.write("~overwrite");
+            window.location.href='/privatechat'; // purpose: to render busy.jade
+        }
+    });
+
     socket.emit('sendPrivateMessage',{message:$('#outgoingMessage').val(), sender:username, receiver:$('#receive').html()});
 	console.log("sent");
 	// append msg to myself

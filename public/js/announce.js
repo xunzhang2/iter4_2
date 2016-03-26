@@ -7,6 +7,21 @@ socket.on('connect', function (data) {
 
 //get messages from jade, send it to server
 $('form').submit(function(){
+		$.ajax({
+      url:  '/isbusy',
+      type: 'GET',
+      async: false,
+      cache: false,
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function (data) {
+		console.log("data="+data.start);
+		if(data.start)
+			// document.write("~overwrite");
+			window.location.href='/announce'; // purpose: to render busy.jade
+		}
+    });
+		
 	var message = $('#messages').val();
     socket.emit('announcement',{msg: message, name: getCookie('username')});
 	$('#messages').val('');

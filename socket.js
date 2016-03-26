@@ -1,5 +1,9 @@
 var HashMap = require('hashmap');
 module.exports = function(io, db) {
+  // console.log("initial: isMeasuringPerformance=" + isMeasuringPerformance);
+// var file=require('./routes.js');
+// var flag=file.flag;
+// console.log("flag="+flag);
 
   var map = new HashMap();
   io.on("connection", function(socket){
@@ -34,12 +38,14 @@ module.exports = function(io, db) {
          db.getUsers(callback);
     });
 
-    
 //============================ PUBLIC CHAT =====================================
     // reveive new public message from user, send it to other users
     socket.on('sendPublicMessage', function(data){
+      // console.log("sendpublicmessage: isMeasuringPerformance=" + isMeasuringPerformance);
+      // console.log("flag inside="+flag);
       io.emit("broadcastPublicMessage", data);
       db.saveMessages(data.message, current_time(), data.name, function(){});
+      
     });
 
 //============================ PRIVATE CHAT =====================================
@@ -47,6 +53,7 @@ module.exports = function(io, db) {
     socket.on("joinRoom",function(data){
       socket.join(data.room);
     });
+
 
     socket.on('sendPrivateMessage', function(data){
       console.log("~~receiver "+data.receiver);
@@ -60,8 +67,8 @@ module.exports = function(io, db) {
 //============================ ANNOUNCEMENT =====================================
  // reveive announcements from user
     socket.on('announcement', function(data){
-       io.emit("newAnn", {msg: data.msg, time: current_time(), name:data.name});
-       db.saveAnnouce(data.msg, current_time(), data.name, function() {});
+      io.emit("newAnn", {msg: data.msg, time: current_time(), name:data.name});
+      db.saveAnnouce(data.msg, current_time(), data.name, function() {});
     });
   //============================ DISCONNECT =====================================   
 
@@ -69,6 +76,7 @@ module.exports = function(io, db) {
        deleteID(socket.id);
     });
  });
+
 
  //delete offline users
     var deleteID = function(id) {
@@ -84,12 +92,14 @@ module.exports = function(io, db) {
 
        });
     }
-    
+
 //returns current time
   var current_time = function() {
     var d = new Date(Date.now());
     var datestring = d.toLocaleDateString();
     var timestring = d.toLocaleTimeString();
     return datestring.concat(" ", timestring);
-  };
+  }; 
+
+
 };

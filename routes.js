@@ -378,7 +378,6 @@ module.exports = function(app, db, testDB) {
 }
 });
 
-    
     //returns current time
 	var current_time = function() {
 		var d = new Date(Date.now());
@@ -386,7 +385,6 @@ module.exports = function(app, db, testDB) {
 		var timestring = d.toLocaleTimeString();
 		return datestring.concat(" ", timestring);
 	};
-
-    
+  
 };
 		

@@ -27,9 +27,10 @@ module.exports = function(grunt){
 
 	mocha_istanbul:{
     coverage:{
-      scr:'test/**/*.js',
+      src: 'test',,
       options:{
       	mocha_Options:['--ui','tdd']
+        istanbulOptions: ['--dir', coverageFolder]
       }
     }
   }

@@ -1,12 +1,11 @@
 module.exports = function(app, db, testDB) {
-    
+   
     fs = require('fs');
     db.createDB("database.db");
     testDB.createDB("testdb.db");
-    //count get request
-    var get_num  = 0;
-    var post_num = 0;
-
+    
+    var isMeasuringPerformance=false;
+    
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
 	if ('username' in req.cookies)
@@ -17,7 +16,9 @@ module.exports = function(app, db, testDB) {
 
     // =========== LOGIN PAGE  ==============
     app.get('/login', function(req, res) {
-	if ('username' in req.cookies) {
+    if(isMeasuringPerformance)
+    	res.render('busy');
+	else if ('username' in req.cookies) {
 	    res.redirect('/users');
 	} else {
 	    res.locals.title = "Login";
@@ -27,9 +28,12 @@ module.exports = function(app, db, testDB) {
 
     // ========== USER DIRECTORY ===========
     app.get('/users', function(req, res) {
-	if ('username' in req.cookies) {
+    if(isMeasuringPerformance)
+    	res.render('busy');
+	else if ('username' in req.cookies) {
 	    function callback(result) {
-		res.locals.result=result;		res.locals.title = "Users";
+		res.locals.result=result;		
+		res.locals.title = "Users";
 		res.render('users');
 	    }
 	    db.getUsers(callback);
@@ -39,21 +43,24 @@ module.exports = function(app, db, testDB) {
 
     // ========== USER DIRECTORY ===========[need REST API]
     app.get('/usersjson', function(req, res) {
-	
-	    function callback(result) {
-		res.locals.result=result;
-		res.locals.title = "Users";
-		res.json(result);
-	    }
-	    db.getUsers(callback);
-	
-
-	    res.redirect('/');
+		if(isMeasuringPerformance)
+    		res.render('busy');
+    	else{
+	    	function callback(result) {
+			res.locals.result=result;
+			res.locals.title = "Users";
+			res.json(result);
+	    	}
+	   		db.getUsers(callback);
+			res.redirect('/');
+		}
     });
 	    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
-	    if ('username' in req.cookies)
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+	    else if ('username' in req.cookies)
 	        db.getMessages(function(doc){
 	  		res.locals.title = "Chat";
 	 		res.render("chat", {result: doc});
@@ -64,8 +71,9 @@ module.exports = function(app, db, testDB) {
 
     // ============== MEASURE PERFORMANCE =============
     app.get('/measure', function(req,res){
-		if ('username' in req.cookies){
-	       
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+		else if ('username' in req.cookies){
 	  		res.locals.title = "MeasurePerformance";
 	 		res.render('performance');
 	    }
@@ -73,10 +81,34 @@ module.exports = function(app, db, testDB) {
 	     res.render('login');
     });
 
+    app.get('/isbusy', function(req,res){
+    	console.log("busy");
+    	console.log("**"+isMeasuringPerformance);
+    	if(isMeasuringPerformance)
+    		res.send({start:true}); //not equivalent to "return"!
+    	else
+    		res.send({start:false});
+
+    });
+
+	// to set flag
+    app.get('/startmeasurement', function(req,res){
+    	
+    	isMeasuringPerformance=true;
+    	// flag=true;
+    	console.log("start--set flag to "+ isMeasuringPerformance);
+    	// console.log("start--set flag# to "+ flag);
+    });
+
+     app.get('/stopmeasurement', function(req,res){
+    	
+    	isMeasuringPerformance=false;
+    	console.log("stop--set flag to "+ isMeasuringPerformance);
+    	
+    });
+
     app.post('/measurechat', function(req,res){
-    	// console.log(req.body.message);
-    	// console.log(req.body.timestamp);
-    	// console.log(req.body.username);
+
     	function callback(result){
     		if(result=="Messages Saved")
     			res.status(200).send("Success");
@@ -89,12 +121,18 @@ module.exports = function(app, db, testDB) {
     		if(result!=undefined)
     			res.status(200).send("Success");
     	}
-    	 testDB.getMessageByTimestamp(req.body.timestamp, callback);
+    	 testDB.getMessages(callback);
+    });
+
+    app.get('/resetmeasurement', function(){
+    	testDB.deleteAllMessages();
     });
 
 // ============== PRIVATE CHAT =============
     app.get('/privatechat', function(req, res) {
-		if ('username' in req.cookies)
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+		else if ('username' in req.cookies)
 	    	db.getPriMsg(req.cookies.username, req.param('receiver'), function(doc){
 	    		res.locals.title = "PrivateChat";
 				res.render("privatechat", {receiver: req.param('receiver'), result:doc});
@@ -106,37 +144,42 @@ module.exports = function(app, db, testDB) {
 
     // ============== ANNOUNCEMENT =============[need REST API]
     app.get('/announcejson', function(req, res) {
-	function callback(result){
-		res.locals.result=result;
-		res.locals.title = "PostAnnouncement";
-		res.json(result);
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+    	else{
+			function callback(result){
+			res.locals.result=result;
+			res.locals.title = "PostAnnouncement";
+			res.json(result);
+			}
+	    	db.getAnnouce(callback);
 		}
-	    db.getAnnouce(callback);
-
     });
 
 
        // ============== ANNOUNCEMENT =============
     app.get('/announce', function(req, res) {
-	if ('username' in req.cookies)
-	    db.getAnnouce(function(doc){
-
-		res.locals.title = "Post Announcement";
-		res.render("announce", {result: doc});
-	    });
-	else
-	    res.render('login');
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+		else if ('username' in req.cookies)
+	    	db.getAnnouce(function(doc){
+			res.locals.title = "Post Announcement";
+			res.render("announce", {result: doc});
+	   		});
+		else
+	    	res.render('login');
     });
  
     // ============== SET STATUS =============
     app.get('/status', function(req, res) {
-	if ('username' in req.cookies) {
-	    res.locals.title = "Status";
-	    res.render('status');
-	} else {
-	    res.render('login');
-	}
-
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+		else if ('username' in req.cookies) {
+	   		res.locals.title = "Status";
+	    	res.render('status');
+		} else {
+	    	res.render('login');
+		}
     });
 
     
@@ -151,7 +194,9 @@ module.exports = function(app, db, testDB) {
     
     // =========== POST LOGIN ==============
     app.post('/login', function(req, res) {
-
+    	if(isMeasuringPerformance)
+    		res.render('busy');	
+    	else{
 	var username = req.body.username;
 	var password = req.body.password;
 	var password2 = req.body.password2;
@@ -190,10 +235,14 @@ module.exports = function(app, db, testDB) {
 
 	}
 	db.userExists(username, password, callback);	
+	}
     });
 
     // =========== POST STATUS ==============
     app.post('/status', function(req, res) {
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+    	else{
 	var status = req.body.status;
 	function callback(result) {
 	    if (result == "Success") {
@@ -206,26 +255,31 @@ module.exports = function(app, db, testDB) {
 	    }
 	}
 	db.setStatus(req.cookies['username'], status, callback);
+	}
     });
 
 
     // =============== SEARCH =================
     app.get('/search', function(req, res) {
-	if ('username' in req.cookies) {
-	    function callback(result) {
-		res.locals.title = "Search";
-		res.locals.others=result;
-		res.locals.current=req.cookies['username'];
-		res.render('search');
-	    }
-	    db.getUsers(callback);
-	    
-	} else
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+		else if ('username' in req.cookies) {
+	    	function callback(result) {
+			res.locals.title = "Search";
+			res.locals.others=result;
+			res.locals.current=req.cookies['username'];
+			res.render('search');
+	    	}
+	    	db.getUsers(callback);
+		} else
 	    res.redirect('/');
     });
 
     // =============== SEARCH =================
     app.post('/search', function(req, res) {
+    	if(isMeasuringPerformance)
+    		res.render('busy');
+    	else{
 	function nonStop(word) {
 	    return fs.readFileSync('./stop_words.txt', 'utf8').trim().split(",").indexOf(word) == -1 && word != "";
 	}
@@ -321,31 +375,9 @@ module.exports = function(app, db, testDB) {
 	} else {
 	    error("No search target selected");
 	}
-    });
+}
+});
 
-    //========== MEASURE PERFORMANCE ============
-    app.get('/measure', function(req, res){
-    res.render('performance');
-    });
-    
-    app.get('/measurechat', function(req, res) {
-        get_num++;
-        console.log("GET requests: "+get_num);
-        db.getMessages(function(doc){
-		  res.locals.title = "Chat";
-		  res.render("chat", {result: doc});
-	    });
-    });
-
-    app.post('/measurechat', function(req, res) {
-    	post_num++;
-    	console.log("POST requests: "+post_num);
-	    testDB.saveMessages("lala","2016","meng",function(done) {
-          console.log(done);
-        });
-    });
-
-    
     //returns current time
 	var current_time = function() {
 		var d = new Date(Date.now());
@@ -353,7 +385,6 @@ module.exports = function(app, db, testDB) {
 		var timestring = d.toLocaleTimeString();
 		return datestring.concat(" ", timestring);
 	};
-
-    
+  
 };
 		

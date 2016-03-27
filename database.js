@@ -15,6 +15,7 @@ database.prototype.createDB = function(filename){
 		 this.db.run("CREATE TABLE IF NOT EXISTS Citizens (" + 
 				      "username TEXT NOT NULL, " + 
 				      "password TEXT NOT NULL, " +
+				      "onoff TEXT, " +
 				      "status TEXT )");
 
     	 this.db.run("CREATE TABLE IF NOT EXISTS Messages (" + 
@@ -57,12 +58,12 @@ database.prototype.userExists = function(username, password, call){
 
 //=============================   USER DIRECTORY  ===================================  
 database.prototype.addUser = function(username, password, call){
-     this.db.run("INSERT INTO Citizens (username,password) VALUES (?,?)",username,password);
+     this.db.run("INSERT INTO Citizens (username,password,onoff) VALUES (?,?,?)",username,password),"offline";
 		call("User created");
 },
 
 database.prototype.getUsers = function(call){
-    var query = "SELECT username, status FROM Citizens;";
+    var query = "SELECT username, status, onoff FROM Citizens ORDER BY username;";
 	this.db.all(query, function(err, rows) {
 	    if (err)
 		console.log(err);
@@ -86,15 +87,10 @@ database.prototype.saveMessages = function(messages, timestamp, username, call){
     call("Messages Saved");
 },
 
-//============================  TEST  ===================================
-database.prototype.getMessageByTimestamp = function(timestamp, callback){
-	var query = "SELECT * FROM Messages WHERE timestamp='" + timestamp + "'";	
-	this.db.all(query, function(err, rows){
-		if(err)
-			console.log(err);		
-		else
-			callback(rows);
-	});
+// //============================  TEST  ===================================
+database.prototype.deleteAllMessages = function() {
+    var query = "DELETE FROM Messages;";
+    this.db.run(query);
 },
 
 //============================  POST ANNOUNCEMENT  ===================================
@@ -142,6 +138,13 @@ database.prototype.setStatus = function(username, status, call){
 	} else {
 	    call("Error");
 	}
+    });
+},
+
+database.prototype.setOnOff = function(username, onoff ){
+
+    this.db.run("UPDATE Citizens SET onoff = '" +onoff+ "' WHERE username = '" +username+ "';", function(err) {
+	console.log(this.changes);
     });
 },
 
@@ -196,4 +199,7 @@ database.prototype.searchPrivate = function(keywords, user1, user2, call) {
 
 
 
+
+
 module.exports = database;
+

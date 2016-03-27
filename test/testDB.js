@@ -52,6 +52,22 @@ suite('Database Test',function(){
       }
       db.getPriMsg("meng","meng1",callback)
     });
+//====================================  TEST PUBLIC CHAT  =================================    
+    test('Tests saving public messages', function(done){
+      function callback(result) {
+        expect(result).to.equal("Messages Saved");
+        done();
+      }
+      db.saveMessages("Hi there", "2016","admin", callback)
+    });
+
+    test('Tests getting public messages', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal('Hi there');
+        done();
+      }
+      db.getMessages(callback)
+    });
 //====================================  TEST ANNOUNCEMENTS  =================================    
     test('Tests saving announcement', function(done){
       function callback(result) {
@@ -83,7 +99,49 @@ suite('Database Test',function(){
         done();
       }
       db.getUsers(callback)
-    });
-  
+    })
+//===================================  TEST SEARCH FUNCTION   ===============================
+  suite('Search function', function(){
+    test('Test searching users', function(done){
+      function callback(result) {
+        expect(result[0]["username"]).to.equal("meng");
+        done();
+      }
+      db.searchUsers("meng",callback)
+    });  
+
+    test('Test searching status', function(done){
+      function callback(result) {
+        expect(result[0]["username"]).to.equal("meng");
+        done();
+      }
+       db.searchStatus("Help",callback)
+    })
+
+    test('Test searching annoucements', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal("Careful!");
+        done();
+      }
+      db.searchAnnouncements([ 'l', '', '' ],callback)
+    });  
+
+    test('Test searching public messages', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal('Hi there');
+        expect(result[0]["username"]).to.equal('admin');
+        done();
+      }
+      db.searchPublic([ 'l', '', '' ],callback)
+    })
+
+    test('Test searching private messages', function(done){
+      function callback(result) {
+        expect(result[0]["message"]).to.equal("Alien!");
+        done();
+      }
+      db.searchPrivate([ 'l', '', '' ],"meng","meng1",callback)
+    })
+  });
   	 
 });

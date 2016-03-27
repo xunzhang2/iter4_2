@@ -46,12 +46,12 @@ require('./socket.js')(io, db);
 require('./api.js')(app, db);
 
 //Controller Setup
-require('./socket.js')(io, messages, announcement);
-require('./controllers/announcementController.js')(app,announcement);
-require('./controllers/logInOutController.js')(app,user);
-require('./controllers/publicChatController.js')(app,messages);
+// require('./socket.js')(io, messages, announcement);
+// require('./controllers/announcementController.js')(app,announcement);
+// require('./controllers/logInOutController.js')(app,user);
+// require('./controllers/publicChatController.js')(app,messages);
 // require('./controllers/routeController.js')(app,connector); // ??
-require('./controllers/shareStatusController.js')(app,status);
+// require('./controllers/shareStatusController.js')(app,status);
 
 // Start application
 var PORT = 3000;

@@ -37,6 +37,12 @@ module.exports = function(app, db) {
 		res.status(404).send("Not found");
 	    }
 	}
+	if (req.params.status != "OK" &&
+	    req.params.status != "Help" &&
+	    req.params.status != "Emergency") {
+	    res.status(400).send("Invalid Status");
+	    return;
+	}
 	db.setStatus(req.params.username, req.params.status, callback);
     });
 
@@ -45,15 +51,19 @@ module.exports = function(app, db) {
 	var username  = req.body.username;
 	var message   = req.body.message;
 	var timestamp = req.body.timestamp
-	function callback(result) {
-	    if (result == "Messages Saved") {
-		res.status(201).send("Message Created");
+	function verify(exists) {
+	    function call(result) {
+		if (result == "Messages Saved") {
+		    res.status(201).send("Message Created");
+		} 
+	    }
+	    if (exists) {
+		db.saveMessages(message, timestamp, username, call);
 	    } else {
 		res.status(404).send("Not Found");
 	    }
 	}
-	db.saveMessages(message, timestamp, username, callback);
-	
+	db.checkUser(req.body.username, verify);
     });
 
     // =========== Get Public Message  ==============    
@@ -63,4 +73,29 @@ module.exports = function(app, db) {
 	}
 	db.getMessages(callback);
     });
+
+    // =========== Get User's Public Message  ==============    
+    app.get('/api/messages/public/:username', function(req, res) {
+	function callback(result) {
+	    res.send(result);
+	}
+	db.getUserMessages(req.params.username, callback);
+    });
+
+    // =========== Post Private Message  ==============    
+    app.get('/api/messages/private', function(req, res) {
+	var sender = req.body.sender;
+	var target = req.body.target;
+	var message= req.body.message;
+	var timestamp=req.body.timestamp;
+	
+	function callback(result) {
+	    res.send(result);
+	}
+	db.getUserMessages(req.params.username, callback);
+    });
+
+    	
+
+
 };

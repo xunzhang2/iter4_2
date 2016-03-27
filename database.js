@@ -39,27 +39,40 @@ database.prototype.createDB = function(filename){
 //=============================  VALIDATE USER INFO  ===================================  
 database.prototype.userExists = function(username, password, call){
     var query = "SELECT password FROM Citizens WHERE username='"+username+"';";
-	this.db.get(query, function(err, row){
-	    if (err)
-		console.log(err);
-	    if (row) { // if non empty result (aka username exists)
-		if (row.password == password) {
-		    call("Success");
+    this.db.get(query, function(err, row){
+	if (err)
+	    console.log(err);
+	if (row) { // if non empty result (aka username exists)
+	    if (row.password == password) {
+		call("Success");
 		    return;
-		} else {
-		    call("Password Incorrect");
-		    return;
-		}
+	    } else {
+		call("Password Incorrect");
+		return;
 	    }
-	    call("User does not exist");
-	    return;
-	});
+	}
+	call("User does not exist");
+	return;
+    });
 },
+
+database.prototype.checkUser = function(username, call){
+    var query = "EXISTS(SELECT 1 FROM Citizens WHERE username='"+username+"' LIMIT 1)";
+    this.db.get("SELECT " + query, function(err, row){
+	if (err) {
+	    console.log(err);
+	} else {
+	    call(row[query]);
+	    return;
+	} 
+    });
+},
+
+
 
 //=============================   USER DIRECTORY  ===================================  
 database.prototype.addUser = function(username, password, call){
-     this.db.run("INSERT INTO Citizens (username,password,onoff) VALUES (?,?,?)",username,password),"offline";
-		call("User created");
+    this.db.run("INSERT INTO Citizens (username,password,onoff) VALUES (?,?,?)",username,password),"offline", call("User created");
 },
 
 database.prototype.getUsers = function(call){
@@ -81,6 +94,17 @@ database.prototype.getMessages = function(callback){
     	    callback(rows);
     	});
 },
+
+database.prototype.getUserMessages = function(username, callback){
+    var query = "SELECT * FROM Messages WHERE username ='" + username + "';";
+    this.db.all(query, function(err, rows) {
+    	if(err) {
+    	    console.log(err);
+    	}
+    	callback(rows);
+    });
+},
+
 //
 database.prototype.saveMessages = function(messages, timestamp, username, call){
     this.db.run("INSERT INTO Messages(message, timestamp, username) VALUES (?, ?, ?)", messages, timestamp, username);

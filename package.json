@@ -1,22 +1,26 @@
 {
-  "name": "chat-app",
-  "main": "server.js",
-  "dependencies": {
-    "body-parser": "~1.0.0",
-    "cookie-parser": "~1.0.0",
-    "expect.js": "^0.3.1",
-    "express": "4.8.0",
-    "express-session": "~1.0.0",
-    "grunt": "^0.4.5",
-    "grunt-cli": "0.1.13",
-    "grunt-mocha-istanbul": "^3.0.1",
-    "grunt-mocha-test": "^0.12.7",
-    "hashmap": "^2.0.4",
-    "jade": "1.11.0",
-    "mocha": "^2.4.5",
-    "mocha-junit-reporter": "^1.9.1",
-    "socket.io": "1.4.4",
-    "sqlite3": "3.1.1",
-    "superagent": "^1.8.3"
+    "name": "chat-app",
+    "main": "server.js",
+    "dependencies": {
+	"body-parser": "~1.0.0",
+	"cookie-parser": "~1.0.0",
+	
+	"debug": "^2.2.0",
+	"expect.js": "^0.3.1",
+	"express": "4.8.0",
+	"express-session": "~1.0.0",
+	
+	"grunt": "^0.4.5",
+	"grunt-cli": "0.1.13",
+	"grunt-mocha-istanbul": "^3.0.1",
+	"grunt-mocha-test": "^0.12.7",
+	
+	"hashmap": "^2.0.4",
+	"jade": "1.11.0",
+	"mocha": "^2.4.5",
+	"mocha-junit-reporter": "^1.9.1",
+	"socket.io": "1.4.4",
+	"sqlite3": "3.1.1",
+	"superagent": "^1.8.3"
   }
 }

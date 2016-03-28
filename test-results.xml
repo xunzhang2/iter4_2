@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.921" tests="23" failures="0">
-  <testsuite name="Root Suite" timestamp="2016-03-28T04:19:29" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="0.873" tests="23" failures="0">
+  <testsuite name="Root Suite" timestamp="2016-03-28T04:24:26" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="Rest API test" timestamp="2016-03-28T04:19:29" tests="0" failures="0" time="0">
+  <testsuite name="Rest API test" timestamp="2016-03-28T04:24:26" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="User API" timestamp="2016-03-28T04:19:29" tests="4" failures="0" time="0.15400000000000003">
+  <testsuite name="User API" timestamp="2016-03-28T04:24:26" tests="4" failures="0" time="0.154">
     <testcase name="Root Suite Rest API test User API Creating a new user" time="0.027" classname="Creating a new user">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password correct)" time="0.116" classname="Validating existed user (password correct)">
+    <testcase name="Root Suite Rest API test User API Validating existed user (password correct)" time="0.118" classname="Validating existed user (password correct)">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password not correct)" time="0.004" classname="Validating existed user (password not correct)">
+    <testcase name="Root Suite Rest API test User API Validating existed user (password not correct)" time="0.003" classname="Validating existed user (password not correct)">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Getting all users" time="0.007" classname="Getting all users">
-    </testcase>
-  </testsuite>
-  <testsuite name="Public chat API" timestamp="2016-03-28T04:19:29" tests="2" failures="0" time="0.153">
-    <testcase name="Root Suite Rest API test Public chat API Saving public messages" time="0.004" classname="Saving public messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Getting public messages" time="0.149" classname="Getting public messages">
+    <testcase name="Root Suite Rest API test User API Getting all users" time="0.006" classname="Getting all users">
     </testcase>
   </testsuite>
-  <testsuite name="Database Test" timestamp="2016-03-28T04:19:30" tests="12" failures="0" time="0.61">
+  <testsuite name="Public chat API" timestamp="2016-03-28T04:24:26" tests="2" failures="0" time="0.135">
+    <testcase name="Root Suite Rest API test Public chat API Saving public messages" time="0.005" classname="Saving public messages">
+    </testcase>
+    <testcase name="Root Suite Rest API test Public chat API Getting public messages" time="0.13" classname="Getting public messages">
+    </testcase>
+  </testsuite>
+  <testsuite name="Database Test" timestamp="2016-03-28T04:24:27" tests="12" failures="0" time="0.578">
     <testcase name="Root Suite Database Test Test new user" time="0" classname="Test new user">
     </testcase>
     <testcase name="Root Suite Database Test Test adding user" time="0.001" classname="Test adding user">
     </testcase>
-    <testcase name="Root Suite Database Test Test existed user, password correct" time="0.096" classname="Test existed user, password correct">
+    <testcase name="Root Suite Database Test Test existed user, password correct" time="0.108" classname="Test existed user, password correct">
     </testcase>
-    <testcase name="Root Suite Database Test Test existed user, password not correct" time="0.001" classname="Test existed user, password not correct">
+    <testcase name="Root Suite Database Test Test existed user, password not correct" time="0" classname="Test existed user, password not correct">
     </testcase>
     <testcase name="Root Suite Database Test Test saving private messeges " time="0" classname="Test saving private messeges ">
     </testcase>
-    <testcase name="Root Suite Database Test Test getting private messeges " time="0.121" classname="Test getting private messeges ">
+    <testcase name="Root Suite Database Test Test getting private messeges " time="0.133" classname="Test getting private messeges ">
     </testcase>
-    <testcase name="Root Suite Database Test Tests saving public messages" time="0.001" classname="Tests saving public messages">
+    <testcase name="Root Suite Database Test Tests saving public messages" time="0" classname="Tests saving public messages">
     </testcase>
-    <testcase name="Root Suite Database Test Tests getting public messages" time="0.121" classname="Tests getting public messages">
+    <testcase name="Root Suite Database Test Tests getting public messages" time="0.101" classname="Tests getting public messages">
     </testcase>
-    <testcase name="Root Suite Database Test Tests saving announcement" time="0.001" classname="Tests saving announcement">
+    <testcase name="Root Suite Database Test Tests saving announcement" time="0" classname="Tests saving announcement">
     </testcase>
-    <testcase name="Root Suite Database Test Tests getting announcement" time="0.145" classname="Tests getting announcement">
+    <testcase name="Root Suite Database Test Tests getting announcement" time="0.136" classname="Tests getting announcement">
     </testcase>
-    <testcase name="Root Suite Database Test Test setting status" time="0.123" classname="Test setting status">
+    <testcase name="Root Suite Database Test Test setting status" time="0.099" classname="Test setting status">
     </testcase>
     <testcase name="Root Suite Database Test Test getting status" time="0" classname="Test getting status">
     </testcase>
   </testsuite>
-  <testsuite name="Search function" timestamp="2016-03-28T04:19:30" tests="5" failures="0" time="0.004">
+  <testsuite name="Search function" timestamp="2016-03-28T04:24:27" tests="5" failures="0" time="0.006">
     <testcase name="Root Suite Database Test Search function Test searching users" time="0.001" classname="Test searching users">
     </testcase>
     <testcase name="Root Suite Database Test Search function Test searching status" time="0.001" classname="Test searching status">
     </testcase>
-    <testcase name="Root Suite Database Test Search function Test searching annoucements" time="0" classname="Test searching annoucements">
+    <testcase name="Root Suite Database Test Search function Test searching annoucements" time="0.001" classname="Test searching annoucements">
     </testcase>
-    <testcase name="Root Suite Database Test Search function Test searching public messages" time="0.001" classname="Test searching public messages">
+    <testcase name="Root Suite Database Test Search function Test searching public messages" time="0.002" classname="Test searching public messages">
     </testcase>
     <testcase name="Root Suite Database Test Search function Test searching private messages" time="0.001" classname="Test searching private messages">
     </testcase>

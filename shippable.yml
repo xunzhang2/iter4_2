@@ -11,10 +11,10 @@ install:
   - npm install
 
 script:
-  - grunt shippable
+  - grunt test
 
 env:
-  - MOCHA_FILE=shippable/testresults/result.xml
+  - XUNIT_FILE=shippable/testresults/result.xml
 
 before_script:
       - mkdir -p shippable/testresults

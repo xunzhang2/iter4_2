@@ -81,10 +81,17 @@ module.exports = function(app, db) {
 
     // =========== Get User's Public Message  ==============    
     app.get('/api/messages/public/:username', function(req, res) {
-	function callback(result) {
-	    res.send(result);
+	function verify(exists) {
+	    function callback(result) {
+		res.send(result);
+	    }
+	    if (exists) {
+		db.getUserMessages(req.params.username, callback);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
 	}
-	db.getUserMessages(req.params.username, callback);
+	db.checkUser(req.params.username, verify);
     });
 
     // =========== Post Private Message  ==============    
@@ -113,31 +120,7 @@ module.exports = function(app, db) {
 	db.checkUser(sender, verify);
     });
 
-    // =========== Post Private Message  ==============    
-    app.get('/api/messages/private/:user1/:user2', function(req, res) {
-	var user1 = req.params.user1;
-	var user2 = req.params.user2;
-	function verify(exists) {
-	    function again(both) {
-		if (both) {
-		    db.getPriMsg(user1, user2, function(result) {
-			res.send(result);
-		    });
-		} else {
-		    res.status(404).send("Not Found");
-		}
-	    }
-	    if (exists) {
-		db.checkUser(user2, again);
-	    } else {
-		res.status(404).send("Not Found");
-	    }
-	}
-	db.checkUser(user1, verify);
-    });
-
-    
-    // =========== Post Private Message  ==============    
+    // =========== Get Private Message  ==============    
     app.get('/api/messages/private/:user1/:user2', function(req, res) {
 	var user1 = req.params.user1;
 	var user2 = req.params.user2;

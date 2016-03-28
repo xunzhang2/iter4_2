@@ -11,12 +11,15 @@ install:
   - npm install
 
 script:
-  - grunt test
+  - grunt shippable
 
 env:
-  - XUNIT_FILE=shippable/testresults/result.xml
+  - MOCHA_FILE=shippable/testresults/result.xml
 
 before_script:
       - mkdir -p shippable/testresults
       - mkdir -p shippable/codecoverage
 
+#after_script: 	   
+#  - ./node_modules/.bin/istanbul cover grunt -- -u tdd
+#  - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/

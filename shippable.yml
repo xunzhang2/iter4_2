@@ -20,6 +20,3 @@ before_script:
       - mkdir -p shippable/testresults
       - mkdir -p shippable/codecoverage
 
-# Tell istanbul to generate a coverage report
-after_script:
-  - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/

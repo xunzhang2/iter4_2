@@ -26,8 +26,8 @@ var server = app.listen(app.get('port'), serverInitialized)
 });
 
 var user = {
-  username: 'meng11',
-  password: '1234'
+    username: 'test' + Math.random(),
+    password: '1234'
 };
 
 suite('Rest API test', function(){

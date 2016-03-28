@@ -1,58 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.564" tests="16" failures="2">
-  <testsuite name="Root Suite" timestamp="2016-03-25T00:08:42" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="0.833" tests="23" failures="0">
+  <testsuite name="Root Suite" timestamp="2016-03-28T03:54:22" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="Rest API test" timestamp="2016-03-25T00:08:42" tests="0" failures="0" time="0">
+  <testsuite name="Rest API test" timestamp="2016-03-28T03:54:22" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="User API" timestamp="2016-03-25T00:08:42" tests="4" failures="1" time="0.014000000000000002">
-    <testcase name="Root Suite Rest API test User API Creating a new user" time="0" classname="Creating a new user">
-      <failure><![CDATA[Error: expected 200 to equal 201
-    at Assertion.assert (node_modules/expect.js/index.js:96:13)
-    at Assertion.be.Assertion.equal (node_modules/expect.js/index.js:216:10)
-    at test/testAPI.js:43:29
-    at Request.callback (node_modules/superagent/lib/node/index.js:691:12)
-    at IncomingMessage.<anonymous> (node_modules/superagent/lib/node/index.js:922:12)
-    at endReadableNT (_stream_readable.js:913:12)]]></failure>
+  <testsuite name="User API" timestamp="2016-03-28T03:54:22" tests="4" failures="0" time="0.159">
+    <testcase name="Root Suite Rest API test User API Creating a new user" time="0.028" classname="Creating a new user">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password correct)" time="0.006" classname="Validating existed user (password correct)">
+    <testcase name="Root Suite Rest API test User API Validating existed user (password correct)" time="0.12" classname="Validating existed user (password correct)">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password not correct)" time="0.003" classname="Validating existed user (password not correct)">
+    <testcase name="Root Suite Rest API test User API Validating existed user (password not correct)" time="0.005" classname="Validating existed user (password not correct)">
     </testcase>
-    <testcase name="Root Suite Rest API test User API Getting all users" time="0.005" classname="Getting all users">
+    <testcase name="Root Suite Rest API test User API Getting all users" time="0.006" classname="Getting all users">
     </testcase>
   </testsuite>
-  <testsuite name="Public chat API" timestamp="2016-03-25T00:08:42" tests="2" failures="0" time="0.113">
+  <testsuite name="Public chat API" timestamp="2016-03-28T03:54:22" tests="2" failures="0" time="0.108">
     <testcase name="Root Suite Rest API test Public chat API Saving public messages" time="0.004" classname="Saving public messages">
     </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Getting public messages" time="0.109" classname="Getting public messages">
+    <testcase name="Root Suite Rest API test Public chat API Getting public messages" time="0.104" classname="Getting public messages">
     </testcase>
   </testsuite>
-  <testsuite name="Database Test" timestamp="2016-03-25T00:08:42" tests="10" failures="1" time="0.43699999999999994">
+  <testsuite name="Database Test" timestamp="2016-03-28T03:54:22" tests="12" failures="0" time="0.5619999999999999">
     <testcase name="Root Suite Database Test Test new user" time="0.001" classname="Test new user">
     </testcase>
     <testcase name="Root Suite Database Test Test adding user" time="0" classname="Test adding user">
     </testcase>
-    <testcase name="Root Suite Database Test Test existed user, password correct" time="0.109" classname="Test existed user, password correct">
+    <testcase name="Root Suite Database Test Test existed user, password correct" time="0.103" classname="Test existed user, password correct">
     </testcase>
-    <testcase name="Root Suite Database Test Test existed user, password not correct" time="0.001" classname="Test existed user, password not correct">
+    <testcase name="Root Suite Database Test Test existed user, password not correct" time="0.002" classname="Test existed user, password not correct">
     </testcase>
     <testcase name="Root Suite Database Test Test saving private messeges " time="0.001" classname="Test saving private messeges ">
-      <failure><![CDATA[Error: expected undefined to equal 'Private Messages Saved'
-    at Assertion.assert (node_modules/expect.js/index.js:96:13)
-    at Assertion.be.Assertion.equal (node_modules/expect.js/index.js:216:10)
-    at callback (test/testDB.js:42:27)
-    at database.savePriMsg (database.js:131:6)
-    at Context.<anonymous> (test/testDB.js:45:10)]]></failure>
     </testcase>
-    <testcase name="Root Suite Database Test Test getting private messeges " time="0.123" classname="Test getting private messeges ">
+    <testcase name="Root Suite Database Test Test getting private messeges " time="0.097" classname="Test getting private messeges ">
+    </testcase>
+    <testcase name="Root Suite Database Test Tests saving public messages" time="0.002" classname="Tests saving public messages">
+    </testcase>
+    <testcase name="Root Suite Database Test Tests getting public messages" time="0.12" classname="Tests getting public messages">
     </testcase>
     <testcase name="Root Suite Database Test Tests saving announcement" time="0.001" classname="Tests saving announcement">
     </testcase>
-    <testcase name="Root Suite Database Test Tests getting announcement" time="0.1" classname="Tests getting announcement">
+    <testcase name="Root Suite Database Test Tests getting announcement" time="0.111" classname="Tests getting announcement">
     </testcase>
-    <testcase name="Root Suite Database Test Test setting status" time="0.101" classname="Test setting status">
+    <testcase name="Root Suite Database Test Test setting status" time="0.123" classname="Test setting status">
     </testcase>
-    <testcase name="Root Suite Database Test Test getting status" time="0" classname="Test getting status">
+    <testcase name="Root Suite Database Test Test getting status" time="0.001" classname="Test getting status">
+    </testcase>
+  </testsuite>
+  <testsuite name="Search function" timestamp="2016-03-28T03:54:23" tests="5" failures="0" time="0.004">
+    <testcase name="Root Suite Database Test Search function Test searching users" time="0" classname="Test searching users">
+    </testcase>
+    <testcase name="Root Suite Database Test Search function Test searching status" time="0.001" classname="Test searching status">
+    </testcase>
+    <testcase name="Root Suite Database Test Search function Test searching annoucements" time="0.001" classname="Test searching annoucements">
+    </testcase>
+    <testcase name="Root Suite Database Test Search function Test searching public messages" time="0.001" classname="Test searching public messages">
+    </testcase>
+    <testcase name="Root Suite Database Test Search function Test searching private messages" time="0.001" classname="Test searching private messages">
     </testcase>
   </testsuite>
 </testsuites>

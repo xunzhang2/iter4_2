@@ -96,8 +96,9 @@ module.exports = function(app, db) {
 	function verify(exists) {
 	    function again(both) {
 		if (both) {
-		    db.savePriMsg(message, timestamp, sender, target, function() {
-			res.status(201).send("Message Created");
+		    db.savePriMsg(message, timestamp, sender, target, function(result) {
+			if (result == "Success") 
+			    res.status(201).send("Message Created");
 		    });
 		} else {
 		    res.status(404).send("Not Found");

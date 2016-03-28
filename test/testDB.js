@@ -39,8 +39,8 @@ suite('Database Test',function(){
 //====================================  TEST PRIVATE CHAT  ================================= 
     test('Test saving private messeges ', function(done){
       function callback(result) {
-        expect(result).to.equal("Private Messages Saved");
-        done();
+          expect(result).to.equal("Success");
+          done();
       }
       db.savePriMsg("Alien!","2200","meng","meng1",callback)
     });
@@ -107,7 +107,7 @@ suite('Database Test',function(){
         expect(result[0]["username"]).to.equal("meng");
         done();
       }
-      db.searchUsers("meng",callback)
+      db.searchUsers(["meng"],callback)
     });  
 
     test('Test searching status', function(done){

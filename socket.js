@@ -62,7 +62,7 @@ module.exports = function(io, db) {
       var roomname=data.sender<data.receiver?data.sender.concat(data.receiver):data.receiver.concat(data.sender);
       console.log(roomname);
       socket.broadcast.to(roomname).emit("broadcastPrivateMessage", data);
-      db.savePriMsg(data.message, current_time(), data.sender, data.receiver, function(){});
+	db.savePriMsg(data.message, current_time(), data.sender, data.receiver, function(result){});
     });
 
    

@@ -3,40 +3,40 @@ var fs      = require("fs");
 
 function database(filename) {
     this.db = new sqlite3.Database(filename);
-} 
+}
 
-//=================================== DB INITIALIZATION ============================================= 
+//=================================== DB INITIALIZATION =============================================
 
 database.prototype.createDB = function(filename){
-	if(fs.existsSync(filename) == false) {
-			fs.openSync(filename,"w");
-		}
+    if(fs.existsSync(filename) == false) {
+	fs.openSync(filename,"w");
+    }
 
-		 this.db.run("CREATE TABLE IF NOT EXISTS Citizens (" + 
-				      "username TEXT NOT NULL, " + 
-				      "password TEXT NOT NULL, " +
-				      "onoff TEXT, " +
-				      "status TEXT )");
+    this.db.run("CREATE TABLE IF NOT EXISTS Citizens (" +
+		"username TEXT NOT NULL, " +
+		"password TEXT NOT NULL, " +
+		"onoff TEXT, " +
+		"status TEXT )");
 
-    	 this.db.run("CREATE TABLE IF NOT EXISTS Messages (" + 
-				      "timestamp TEXT NOT NULL, " + 
-				      "username TEXT NOT NULL, " + 
-				      "message TEXT)");
+    this.db.run("CREATE TABLE IF NOT EXISTS Messages (" +
+		"timestamp TEXT NOT NULL, " +
+		"username TEXT NOT NULL, " +
+		"message TEXT)");
 
-    	 this.db.run("CREATE TABLE IF NOT EXISTS PriMsg (" + 
-				      "message TEXT NOT NULL, " + 
-				      "timestamp TEXT NOT NULL, " + 
-				      "sender TEXT NOT NULL, " + 
-				      "receiver TEXT NOT NULL)");
+    this.db.run("CREATE TABLE IF NOT EXISTS PriMsg (" +
+		"message TEXT NOT NULL, " +
+		"timestamp TEXT NOT NULL, " +
+		"sender TEXT NOT NULL, " +
+		"receiver TEXT NOT NULL)");
 
 
-    	 this.db.run("CREATE TABLE IF NOT EXISTS Announ (" + 
-				      "timestamp TEXT NOT NULL, " + 
-				      "username TEXT NOT NULL, " + 
-				      "message TEXT NOT NULL)");
+    this.db.run("CREATE TABLE IF NOT EXISTS Announ (" +
+		"timestamp TEXT NOT NULL, " +
+		"username TEXT NOT NULL, " +
+		"message TEXT NOT NULL)");
 },
 
-//=============================  VALIDATE USER INFO  ===================================  
+//=============================  VALIDATE USER INFO  ===================================
 database.prototype.userExists = function(username, password, call){
     var query = "SELECT password FROM Citizens WHERE username='"+username+"';";
     this.db.get(query, function(err, row){
@@ -45,7 +45,7 @@ database.prototype.userExists = function(username, password, call){
 	if (row) { // if non empty result (aka username exists)
 	    if (row.password == password) {
 		call("Success");
-		    return;
+		return;
 	    } else {
 		call("Password Incorrect");
 		return;
@@ -64,44 +64,44 @@ database.prototype.checkUser = function(username, call){
 	} else {
 	    call(row[query]);
 	    return;
-	} 
+	}
     });
 },
 
 
 
-//=============================   USER DIRECTORY  ===================================  
+//=============================   USER DIRECTORY  ===================================
 database.prototype.addUser = function(username, password, call){
     this.db.run("INSERT INTO Citizens (username,password,onoff) VALUES (?,?,?)",username,password),"offline", call("User created");
 },
 
 database.prototype.getUsers = function(call){
     var query = "SELECT username, status, onoff FROM Citizens ORDER BY username;";
-	this.db.all(query, function(err, rows) {
-	    if (err)
-		console.log(err);
-	    call(rows);
-	});
+    this.db.all(query, function(err, rows) {
+	if (err)
+	    console.log(err);
+	call(rows);
+    });
 },
 //=================================  PUBLIC CHAT  ===================================
 database.prototype.getMessages = function(callback){
-	var query = "SELECT * FROM Messages";
-    	this.db.all(query, function(err, rows) {
+    var query = "SELECT * FROM Messages";
+    this.db.all(query, function(err, rows) {
 
-    	    if(err) {
-    		console.log(err);
-    	    }
-    	    callback(rows);
-    	});
+	if(err) {
+	    console.log(err);
+	}
+	callback(rows);
+    });
 },
 
 database.prototype.getUserMessages = function(username, callback){
     var query = "SELECT * FROM Messages WHERE username ='" + username + "';";
     this.db.all(query, function(err, rows) {
-    	if(err) {
-    	    console.log(err);
-    	}
-    	callback(rows);
+	if(err) {
+	    console.log(err);
+	}
+	callback(rows);
     });
 },
 
@@ -119,34 +119,34 @@ database.prototype.deleteAllMessages = function() {
 
 //============================  POST ANNOUNCEMENT  ===================================
 database.prototype.getAnnouce = function(callback){
-	var query = "SELECT * FROM Announ";
-    	this.db.all(query, function(err, rows) {
-    	    if(err) {
-    		console.log(err);
-    	    }
-    	    callback(rows);
-    	});
+    var query = "SELECT * FROM Announ";
+    this.db.all(query, function(err, rows) {
+	if(err) {
+	    console.log(err);
+	}
+	callback(rows);
+    });
 },
 //
 database.prototype.saveAnnouce= function(messages, timestamp, username, call){
     this.db.run("INSERT INTO Announ(message, timestamp, username) VALUES (?, ?, ?)", messages, timestamp, username);
-    	call("Annoucement Saved");
+    call("Annoucement Saved");
 },
 
 //=================================  PRIVATE CHAT  ===================================
 database.prototype.getPriMsg = function(user1, user2, callback){
-    var query = "SELECT * FROM PriMsg WHERE (sender=? and receiver=?) OR (sender=? and receiver=?)";            
+    var query = "SELECT * FROM PriMsg WHERE (sender=? and receiver=?) OR (sender=? and receiver=?)";
     this.db.all(query, user1, user2, user2, user1, function(err, rows) {
 	
-    	if(err) {
-    	    console.log(err);
-    	}
-    	callback(rows);
+	if(err) {
+	    console.log(err);
+	}
+	callback(rows);
     });
 },
 //
 database.prototype.savePriMsg = function(messages, timestamp, user1, user2, call){
-    this.db.run("INSERT INTO PriMsg(message, timestamp, sender, receiver) VALUES (?, ?, ?, ?)", messages, timestamp, user1, user2, call());
+    this.db.run("INSERT INTO PriMsg(message, timestamp, sender, receiver) VALUES (?, ?, ?, ?)", messages, timestamp, user1, user2, call("Success"));
 },
 
 database.prototype.getConvos = function(user, call) {
@@ -241,4 +241,3 @@ database.prototype.searchPrivate = function(keywords, user1, user2, call) {
 
 
 module.exports = database;
-

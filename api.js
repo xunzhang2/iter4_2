@@ -1,4 +1,5 @@
 module.exports = function(app, db) {
+    fs = require('fs');
     db.createDB("database.db");
 
     // =========== REGISTER USER  ==============
@@ -17,7 +18,11 @@ module.exports = function(app, db) {
 	    }
 	    console.log("call done:" + result);
 	}
-	db.userExists(username, password, callback);	
+	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").indexOf(username) > -1) {
+	    res.status(400).send("Banned");
+	} else {
+	    db.userExists(username, password, callback);
+	}
     });
 
     // =========== Retrieve Users  ==============
@@ -29,7 +34,7 @@ module.exports = function(app, db) {
     });
 
     // =========== Update User Status  ==============
-    app.post('/api/users/:username/status/:status', function(req, res) {
+    app.post('/api/users/:username/setstatus/:status', function(req, res) {
 	function callback(result) {
 	    if (result == "Success") {
 		res.status(201).send("Status Created");
@@ -83,19 +88,213 @@ module.exports = function(app, db) {
     });
 
     // =========== Post Private Message  ==============    
-    app.get('/api/messages/private', function(req, res) {
+    app.post('/api/messages/private', function(req, res) {
 	var sender = req.body.sender;
 	var target = req.body.target;
 	var message= req.body.message;
 	var timestamp=req.body.timestamp;
-	
-	function callback(result) {
-	    res.send(result);
+	function verify(exists) {
+	    function again(both) {
+		if (both) {
+		    db.savePriMsg(message, timestamp, sender, target, function() {
+			res.status(201).send("Message Created");
+		    });
+		} else {
+		    res.status(404).send("Not Found");
+		}
+	    }
+	    if (exists) {
+		db.checkUser(target, again);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
 	}
-	db.getUserMessages(req.params.username, callback);
+	db.checkUser(sender, verify);
     });
 
-    	
+    // =========== Post Private Message  ==============    
+    app.get('/api/messages/private/:user1/:user2', function(req, res) {
+	var user1 = req.params.user1;
+	var user2 = req.params.user2;
+	function verify(exists) {
+	    function again(both) {
+		if (both) {
+		    db.getPriMsg(user1, user2, function(result) {
+			res.send(result);
+		    });
+		} else {
+		    res.status(404).send("Not Found");
+		}
+	    }
+	    if (exists) {
+		db.checkUser(user2, again);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
+	}
+	db.checkUser(user1, verify);
+    });
+
+    
+    // =========== Post Private Message  ==============    
+    app.get('/api/messages/private/:user1/:user2', function(req, res) {
+	var user1 = req.params.user1;
+	var user2 = req.params.user2;
+	function verify(exists) {
+	    function again(both) {
+		if (both) {
+		    db.getPriMsg(user1, user2, function(result) {
+			res.send(result);
+		    });
+		} else {
+		    res.status(404).send("Not Found");
+		}
+	    }
+	    if (exists) {
+		db.checkUser(user2, again);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
+	}
+	db.checkUser(user1, verify);
+    });
+
+
+    // =========== Get Private Targets  ==============    
+    app.get('/api/users/:username/private/', function(req, res) {
+	var username = req.params.username;
+	function verify(exists) {
+	    function sendback(result) {
+		res.send(result);
+	    }
+	    if (exists) {
+		db.getConvos(username, sendback);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
+	}
+	db.checkUser(username, verify);
+    });
+
+    // =========== Post Announcement  ==============    
+    app.post('/api/messages/announcements/', function(req, res) {
+	var message = req.body.message;
+	var timestamp = req.body.timestamp;
+	function call(result) {
+	    res.status(201).send("Created");
+	}
+	db.saveAnnouce(message, timestamp, "API ENTRY", call);
+    });
+    
+    // =========== Get Announcements  ==============    
+    app.get('/api/messages/announcements/', function(req, res) {
+	function call(result) {
+	    res.send(result);
+	}
+	db.getAnnouce(call);
+    });
+
+    
+    function nonStop(word) {
+	return fs.readFileSync('./stop_words.txt', 'utf8').trim().split(",").indexOf(word) == -1 && word != "";
+    }
+
+    // =========== Search Users  ==============        
+    app.post('/api/users/search/', function(req, res) {
+	function noempty(x) {
+	    return x != "";
+	}
+	function searchcall(result) {
+	    if (result.length) {
+		res.send(result);
+	    } else {
+		res.status(404).send("No Match");
+	    }		    
+	}
+	var names = req.body.usernames.filter(noempty);
+	db.searchUsers(names, searchcall);
+    });
+
+    // =========== Search Status  ==============        
+    app.post('/api/users/search/status/:status', function(req, res) {
+	if (req.params.status != "OK" &&
+	    req.params.status != "Help" &&
+	    req.params.status != "Emergency") {
+	    res.status(400).send("Invalid Status");
+	    return;
+	}
+	function searchcall(result) {
+	    if (result.length) {
+		res.send(result);
+	    } else {
+		res.status(404).send("No Match");
+	    }		    
+	}	
+	db.searchStatus(req.params.status, searchcall);
+    });
+    
+    // =========== Search Announcements  ==============        
+    app.post('/api/messages/announcements/search/', function(req, res) {
+	function searchcall(result) {
+	    if (result.length) {
+		res.send(result);
+	    } else {
+		res.status(404).send("No Match");
+	    }		    
+	}	
+	var keywords = req.body.keywords.filter(nonStop);
+	db.searchAnnouncements(keywords, searchcall);
+	
+    });
+
+    // =========== Search Public  ==============        
+    app.post('/api/messages/public/search/', function(req, res) {
+	function searchcall(result) {
+	    if (result.length) {
+		res.send(result);
+	    } else {
+		res.status(404).send("No Match");
+	    }		    
+	}	
+	var keywords = req.body.keywords.filter(nonStop);
+	db.searchPublic(keywords, searchcall);
+    });
+
+
+    // =========== Search Private ==============        
+    app.post('/api/messages/private/:user1/:user2/search', function(req, res) {
+	function searchcall(result) {
+	    if (result.length) {
+		res.send(result);
+	    } else {
+		res.status(404).send("No Match");
+	    }		    
+	}	
+	var keywords = req.body.keywords.filter(nonStop);
+	var user1 = req.params.user1;
+	var user2 = req.params.user2;
+	function verify(exists) {
+	    function again(both) {
+		if (both) {
+		    db.searchPrivate(keywords, user1, user2, searchcall);
+		} else {
+		    res.status(404).send("Not Found");
+		}
+	    }
+	    if (exists) {
+		db.checkUser(user2, again);
+	    } else {
+		res.status(404).send("Not Found");
+	    }
+	}
+	db.checkUser(user1, verify);
+    });
+
+    
+
+
+
+    
 
 
 };

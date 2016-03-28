@@ -135,21 +135,34 @@ database.prototype.saveAnnouce= function(messages, timestamp, username, call){
 
 //=================================  PRIVATE CHAT  ===================================
 database.prototype.getPriMsg = function(user1, user2, callback){
-	var query = "SELECT * FROM PriMsg WHERE (sender=? and receiver=?) OR (sender=? and receiver=?)";            
-    	this.db.all(query, user1, user2, user2, user1, function(err, rows) {
-
-    	    if(err) {
-    		console.log(err);
-    	    }
-    	    callback(rows);
-    	});
+    var query = "SELECT * FROM PriMsg WHERE (sender=? and receiver=?) OR (sender=? and receiver=?)";            
+    this.db.all(query, user1, user2, user2, user1, function(err, rows) {
+	
+    	if(err) {
+    	    console.log(err);
+    	}
+    	callback(rows);
+    });
 },
 //
 database.prototype.savePriMsg = function(messages, timestamp, user1, user2, call){
-    this.db.run("INSERT INTO PriMsg(message, timestamp, sender, receiver) VALUES (?, ?, ?, ?)", 
-    	messages, timestamp, user1, user2);
-    	call();
+    this.db.run("INSERT INTO PriMsg(message, timestamp, sender, receiver) VALUES (?, ?, ?, ?)", messages, timestamp, user1, user2, call());
+},
 
+database.prototype.getConvos = function(user, call) {
+    var query1 = "SELECT sender AS other FROM PriMsg WHERE receiver='" + user + "' ";
+    var query2 = "SELECT receiver AS other FROM PriMsg WHERE sender='" + user + "' ";
+    this.db.all(query1 + " UNION " + query2 + ";", function(err, rows) {
+	if (err) {
+	    console.log(err);
+	}
+	function extract(x) {
+	    return x['other'];
+	}
+	rows = rows.map(extract);
+	console.log(rows)
+	call(rows);
+    });
 },
 
 //=================================  SHARE STATUS  ===================================
@@ -172,10 +185,12 @@ database.prototype.setOnOff = function(username, onoff ){
     });
 },
 
-
+/////////////////////////////////////////////////////////////////////////////////////
 // SEARCH: "SELECT [col] FROM [table] WHERE [col] LIKE "%[keyword]%" OR [col]='value';
-database.prototype.searchUsers = function(username, call) {
-    var query = "SELECT username FROM Citizens WHERE username LIKE '%" + username + "%';";
+/////////////////////////////////////////////////////////////////////////////////////
+
+database.prototype.searchUsers = function(usernames, call) {
+    var query = "SELECT username FROM Citizens WHERE username LIKE '%" + usernames.join("%' OR username LIKE '%") + "%';";
     this.db.all(query, function(err, rows) {
 	if (err)
 	    console.log(err);

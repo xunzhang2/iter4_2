@@ -200,7 +200,7 @@ module.exports = function(app, db, testDB) {
 	var username = req.body.username;
 	var password = req.body.password;
 	var password2 = req.body.password2;
-	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").toString().indexOf(username) > -1) {
+	if (fs.readFileSync('./banned.txt', 'utf8').split("\n").indexOf(username) > -1) {
 	    res.locals.failure = true;
 	    res.locals.message = "Username Banned";
 	    res.locals.title = "Login";
@@ -280,10 +280,10 @@ module.exports = function(app, db, testDB) {
     	if(isMeasuringPerformance)
     		res.render('busy');
     	else{
-	function nonStop(word) {
-	    return fs.readFileSync('./stop_words.txt', 'utf8').trim().split(",").indexOf(word) == -1 && word != "";
-	}
-
+	    function nonStop(word) {
+		return fs.readFileSync('./stop_words.txt', 'utf8').trim().split(",").indexOf(word) == -1 && word != "";
+	    }
+	    
 	function error(msg) {
 	    function errorcall(result) {
 		res.locals.title = "Result";
@@ -298,9 +298,14 @@ module.exports = function(app, db, testDB) {
 	
 	console.log(req.body);
 	var target = req.body.target;
+	    
 	if (target == "Users") {
 	    console.log("searching users");
-	    if (!req.body.username) {
+	    function noempty(x) {
+		return x != "";
+	    }
+	    var names = req.body.username.trim().split(" ").filter(noempty);
+	    if (names.length) {
 		error("No username specified");
 	    } else {
 		function usercall(result) {
@@ -312,7 +317,7 @@ module.exports = function(app, db, testDB) {
 			error("No matching users found");
 		    }
 		}
-		db.searchUsers(req.body.username, usercall);
+		db.searchUsers(names, usercall);
 	    }
 	    
 	} else if (target == "Status") {
@@ -362,8 +367,6 @@ module.exports = function(app, db, testDB) {
 
 	    } else {
 		var k = req.body.keyword[2].split(" ").filter(nonStop);
-		console.log(k.length);
-		console.log(!k.length);
 		if (!k.length || !req.body.others) {
 		    error("Please enter acceptable keywords and select private chat user");
 		} else {

@@ -1,5 +1,5 @@
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/server.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/server.js
 FN:58,(anonymous_1)
 FNF:1
 FNH:0
@@ -45,7 +45,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/routes.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/routes.js
 FN:1,(anonymous_1)
 FN:10,(anonymous_2)
 FN:18,(anonymous_3)
@@ -467,7 +467,7 @@ BRF:95
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/database.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/database.js
 FN:4,database
 FN:10,(anonymous_2)
 FN:40,(anonymous_3)
@@ -690,7 +690,7 @@ BRF:34
 BRH:1
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/models/database.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/models/database.js
 FN:4,database
 FN:9,(anonymous_2)
 FNF:2
@@ -718,7 +718,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/models/announce.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/models/announce.js
 FN:3,Annoucement
 FN:11,(anonymous_2)
 FN:13,(anonymous_3)
@@ -751,7 +751,7 @@ BRF:2
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/models/status.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/models/status.js
 FN:2,Status
 FN:9,(anonymous_2)
 FNF:2
@@ -769,7 +769,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/models/users.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/models/users.js
 FN:5,User
 FN:12,(anonymous_2)
 FN:18,(anonymous_3)
@@ -832,7 +832,7 @@ BRF:8
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/models/messages.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/models/messages.js
 FN:4,Message
 FN:11,(anonymous_2)
 FN:19,(anonymous_3)
@@ -881,7 +881,7 @@ BRF:4
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/socket.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/socket.js
 FN:2,(anonymous_1)
 FN:9,(anonymous_2)
 FN:13,(anonymous_3)
@@ -979,7 +979,7 @@ BRF:8
 BRH:0
 end_of_record
 TN:
-SF:/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc/api.js
+SF:/Users/Meng/Documents/FSE/S16-SV4-SSNoC/api.js
 FN:1,(anonymous_1)
 FN:6,(anonymous_2)
 FN:9,callback

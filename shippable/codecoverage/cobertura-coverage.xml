@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
-<coverage lines-valid="670"  lines-covered="181"  line-rate="0.2701"  branches-valid="207"  branches-covered="1"  branch-rate="0.0048"  timestamp="1459145084089" complexity="0" version="0.1">
+<coverage lines-valid="670"  lines-covered="181"  line-rate="0.2701"  branches-valid="207"  branches-covered="1"  branch-rate="0.0048"  timestamp="1459146194236" complexity="0" version="0.1">
 <sources>
 	<source>/home/jshen130/Documents/cmu_ms_se/spring16/foundations-of-software-engineering/ssnoc</source>
 </sources>

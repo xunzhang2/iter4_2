@@ -13,6 +13,7 @@ socket.emit('usersListReq');
 socket.on('alllUsers', function(result){
   for(x in result){
 
+
     color=changeColor(result[x].status);
 
   	if(result[x].onoff == "online")
@@ -27,6 +28,7 @@ socket.on('alllUsers', function(result){
   }	
   
 });
+
 
 setTimeout(function(){
   document.getElementById('msg').style.display='none';

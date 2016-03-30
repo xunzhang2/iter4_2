@@ -86,8 +86,8 @@ module.exports = function(app, db, testDB) {
     app.get('/isbusy', function(req,res){
     	console.log("busy");
     	console.log("**"+isMeasuringPerformance);
-    	if(isMeasuringPerformance)
-    		res.send({start:true}); //not equivalent to "return"!
+    	if(isMeasuringPerformance)    		
+    	res.send({start:true}); //not equivalent to "return"!
     	else
     		res.send({start:false});
 
@@ -96,6 +96,7 @@ module.exports = function(app, db, testDB) {
 	// to set flag
     app.get('/startmeasurement', function(req,res){
     	
+
     	isMeasuringPerformance=true;
     	// flag=true;
     	console.log("start--set flag to "+ isMeasuringPerformance);
@@ -157,7 +158,6 @@ module.exports = function(app, db, testDB) {
 	    	db.getAnnouce(callback);
 		}
     });
-
 
        // ============== ANNOUNCEMENT =============
     app.get('/announce', function(req, res) {
@@ -279,7 +279,6 @@ module.exports = function(app, db, testDB) {
 	    res.redirect('/');
     });
 
-    
     app.post('/search', function(req, res) {
     	if(isMeasuringPerformance)
     		res.render('busy');
@@ -300,6 +299,7 @@ module.exports = function(app, db, testDB) {
 	    db.getUsers(errorcall);
 	}
 	
+
 	// console.log(req.body);
 	var target = req.body.target;
 	    
@@ -309,6 +309,7 @@ module.exports = function(app, db, testDB) {
 		return x != "";
 	    }
 	    var names = req.body.username.trim().split(" ").filter(noempty);
+
 	    if (names.length) {
 		error("No username specified");
 	    } else {
@@ -325,7 +326,6 @@ module.exports = function(app, db, testDB) {
 	    }
 	    
 	} else if (target == "Status") {
-	    // console.log("searching statuses");
 	    if (!req.body.code) {
 		error("No status code selected");
 	    } else {
@@ -356,7 +356,6 @@ module.exports = function(app, db, testDB) {
 		if (!keywords.length) {
 		    error("Either no keywords specified or only stop words specificed");
 		} else {
-		    // console.log("search announcements for: " + keywords);
 		    db.searchAnnouncements(keywords, msgcall);
 		}
 
@@ -365,7 +364,6 @@ module.exports = function(app, db, testDB) {
 		if (!keywords.length) {
 		    error("Either no keywords specified or only stop words specificed");
 		} else {
-		    // console.log("search public messages for: " + keywords);
 		    db.searchPublic(keywords, msgcall);
 		}
 
@@ -374,7 +372,6 @@ module.exports = function(app, db, testDB) {
 		if (!k.length || !req.body.others) {
 		    error("Please enter acceptable keywords and select private chat user");
 		} else {
-		    // console.log("search private messages for: " + k);
 		    db.searchPrivate(k, req.body.others, req.cookies['username'], msgcall);
 		}
 	    }

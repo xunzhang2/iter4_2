@@ -29,6 +29,7 @@ database.prototype.createDB = function(filename){
 		"sender TEXT NOT NULL, " +
 		"receiver TEXT NOT NULL)");
 
+
     this.db.run("CREATE TABLE IF NOT EXISTS Announ (" +
 		"timestamp TEXT NOT NULL, " +
 		"username TEXT NOT NULL, " +

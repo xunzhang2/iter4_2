@@ -16,8 +16,8 @@ module.exports = function(app, db, testDB) {
 
     // =========== LOGIN PAGE  ==============
     app.get('/login', function(req, res) {
-    if(isMeasuringPerformance)
-    	res.render('busy');
+	if(isMeasuringPerformance)
+    	    res.render('busy');
 	else if ('username' in req.cookies) {
 	    res.redirect('/users');
 	} else {
@@ -28,8 +28,8 @@ module.exports = function(app, db, testDB) {
 
     // ========== USER DIRECTORY ===========
     app.get('/users', function(req, res) {
-    if(isMeasuringPerformance)
-    	res.render('busy');
+	if(isMeasuringPerformance)
+    	    res.render('busy');
 	else if ('username' in req.cookies) {
 	    function callback(result) {
 		res.locals.result=result;		
@@ -43,143 +43,139 @@ module.exports = function(app, db, testDB) {
 
     // ========== USER DIRECTORY ===========[need REST API]
     app.get('/usersjson', function(req, res) {
-		if(isMeasuringPerformance)
-    		res.render('busy');
+	if(isMeasuringPerformance)
+    	    res.render('busy');
     	else{
-	    	function callback(result) {
-			res.locals.result=result;
-			res.locals.title = "Users";
-			res.json(result);
-	    	}
-	   		db.getUsers(callback);
-			res.redirect('/');
-		}
+	    function callback(result) {
+		res.locals.result=result;
+		res.locals.title = "Users";
+		res.json(result);
+	    }
+	    db.getUsers(callback);
+	    res.redirect('/');
+	}
     });
-	    
+    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');
-	    else if ('username' in req.cookies)
-	        db.getMessages(function(doc){
-	  		res.locals.title = "Chat";
-	 		res.render("chat", {result: doc});
+    	    res.render('busy');
+	else if ('username' in req.cookies)
+	    db.getMessages(function(doc){
+	  	res.locals.title = "Chat";
+	 	res.render("chat", {result: doc});
 	    });
-	    else
-	     res.render('login');
+	else
+	    res.render('login');
     });
-
+    
     // ============== MEASURE PERFORMANCE =============
     app.get('/measure', function(req,res){
     	if(isMeasuringPerformance)
-    		res.render('busy');
-		else if ('username' in req.cookies){
-	  		res.locals.title = "MeasurePerformance";
-	 		res.render('performance');
-	    }
-	    else
-	     res.render('login');
+    	    res.render('busy');
+	else if ('username' in req.cookies){
+	    res.locals.title = "MeasurePerformance";
+	    res.render('performance');
+	} else
+	    res.render('login');
     });
-
+    
     app.get('/isbusy', function(req,res){
     	console.log("busy");
     	console.log("**"+isMeasuringPerformance);
     	if(isMeasuringPerformance)
-    		res.send({start:true}); //not equivalent to "return"!
+    	    res.send({start:true}); //not equivalent to "return"!
     	else
     		res.send({start:false});
-
+	
     });
-
-	// to set flag
+    
+    // to set flag
     app.get('/startmeasurement', function(req,res){
-    	
     	isMeasuringPerformance=true;
     	// flag=true;
     	console.log("start--set flag to "+ isMeasuringPerformance);
     	// console.log("start--set flag# to "+ flag);
     });
-
-     app.get('/stopmeasurement', function(req,res){
-    	
+    
+    app.get('/stopmeasurement', function(req,res){	
     	isMeasuringPerformance=false;
     	console.log("stop--set flag to "+ isMeasuringPerformance);
     	
     });
-
+    
     app.post('/measurechat', function(req,res){
-
     	function callback(result){
-    		if(result=="Messages Saved")
-    			res.status(200).send("Success");
+    	    if(result=="Messages Saved")
+    		res.status(200).send("Success");
     	}
-    	 testDB.saveMessages(req.body.message, req.body.timestamp, req.body.username, callback);
+    	testDB.saveMessages(req.body.message, req.body.timestamp, req.body.username, callback);
     });
-
+    
     app.get('/measurechat', function(req,res){
     	function callback(result){
-    		if(result!=undefined)
-    			res.status(200).send("Success");
+    	    if(result!=undefined)
+    		res.status(200).send("Success");
     	}
-    	 testDB.getMessages(callback);
+    	testDB.getMessages(callback);
     });
-
+    
     app.get('/resetmeasurement', function(){
     	testDB.deleteAllMessages();
     });
-
-// ============== PRIVATE CHAT =============
+    
+    // ============== PRIVATE CHAT =============
     app.get('/privatechat', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');
-		else if ('username' in req.cookies)
-	    	db.getPriMsg(req.cookies.username, req.param('receiver'), function(doc){
-	    		res.locals.title = "PrivateChat";
-				res.render("privatechat", {receiver: req.param('receiver'), result:doc});
-	    	});
-		else
-	    	res.render('login');
+    	    res.render('busy');
+	else if ('username' in req.cookies)
+	    db.getPriMsg(req.cookies.username, req.param('receiver'), function(doc){
+	    	res.locals.title = "PrivateChat";
+		res.render("privatechat", {receiver: req.param('receiver'), result:doc});
+	    });
+	else
+	    res.render('login');
     });
-
-
+    
+    
     // ============== ANNOUNCEMENT =============[need REST API]
     app.get('/announcejson', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');
+    	    res.render('busy');
     	else{
-			function callback(result){
-			res.locals.result=result;
-			res.locals.title = "PostAnnouncement";
-			res.json(result);
-			}
-	    	db.getAnnouce(callback);
-		}
+	    function callback(result){
+		res.locals.result=result;
+		res.locals.title = "PostAnnouncement";
+		res.json(result);
+	    }
+	    db.getAnnouce(callback);
+	}
     });
-
+    
 
        // ============== ANNOUNCEMENT =============
     app.get('/announce', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');
-		else if ('username' in req.cookies)
-	    	db.getAnnouce(function(doc){
-			res.locals.title = "Post Announcement";
-			res.render("announce", {result: doc});
-	   		});
-		else
-	    	res.render('login');
+    	    res.render('busy');
+	else if ('username' in req.cookies)
+	    db.getAnnouce(function(doc){
+		res.locals.title = "Post Announcement";
+		res.render("announce", {result: doc});
+	    });
+	else
+	    res.render('login');
     });
- 
+    
     // ============== SET STATUS =============
     app.get('/status', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');
-		else if ('username' in req.cookies) {
-	   		res.locals.title = "Status";
-	    	res.render('status');
-		} else {
-	    	res.render('login');
-		}
+    	    res.render('busy');
+	else if ('username' in req.cookies) {
+	    res.locals.title = "Status";
+	    res.render('status');
+	} else {
+	    res.render('login');
+	}
     });
 
     
@@ -195,7 +191,7 @@ module.exports = function(app, db, testDB) {
     // =========== POST LOGIN ==============
     app.post('/login', function(req, res) {
     	if(isMeasuringPerformance)
-    		res.render('busy');	
+    	    res.render('busy');	
     	else{
 	var username = req.body.username;
 	var password = req.body.password;
@@ -305,7 +301,7 @@ module.exports = function(app, db, testDB) {
 		return x != "";
 	    }
 	    var names = req.body.username.trim().split(" ").filter(noempty);
-	    if (names.length) {
+	    if (!names.length) {
 		error("No username specified");
 	    } else {
 		function usercall(result) {

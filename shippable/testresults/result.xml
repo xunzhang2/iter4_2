@@ -1,161 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="Mocha Tests" time="0.2810000000000001" tests="61" failures="0">
-  <testsuite name="Root Suite" timestamp="2016-03-28T22:50:33" tests="0" failures="0" time="0">
+<testsuites name="Mocha Tests" time="0.5569999999999999" tests="22" failures="0">
+  <testsuite name="Root Suite" timestamp="2016-03-30T05:21:30" tests="0" failures="0" time="0">
   </testsuite>
-  <testsuite name="Rest API test" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.065">
-    <testcase name="Root Suite Rest API test search invalid second private" time="0.057" classname="search invalid second private">
+  <testsuite name="Annoucement" timestamp="2016-03-30T05:21:30" tests="2" failures="0" time="0.131">
+    <testcase name="Root Suite Annoucement Tests saving announcement" time="0.003" classname="Tests saving announcement">
     </testcase>
-    <testcase name="Root Suite Rest API test search no result private" time="0.008" classname="search no result private">
-    </testcase>
-  </testsuite>
-  <testsuite name="User API" timestamp="2016-03-28T22:50:33" tests="6" failures="0" time="0.037000000000000005">
-    <testcase name="Root Suite Rest API test User API Creating a new user" time="0.006" classname="Creating a new user">
-    </testcase>
-    <testcase name="Root Suite Rest API test User API Creating another new user" time="0.006" classname="Creating another new user">
-    </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password correct)" time="0.004" classname="Validating existed user (password correct)">
-    </testcase>
-    <testcase name="Root Suite Rest API test User API Try a banned username" time="0.005" classname="Try a banned username">
-    </testcase>
-    <testcase name="Root Suite Rest API test User API Validating existed user (password not correct)" time="0.004" classname="Validating existed user (password not correct)">
-    </testcase>
-    <testcase name="Root Suite Rest API test User API Getting all users" time="0.012" classname="Getting all users">
+    <testcase name="Root Suite Annoucement Tests getting announcement" time="0.128" classname="Tests getting announcement">
     </testcase>
   </testsuite>
-  <testsuite name="Status API" timestamp="2016-03-28T22:50:33" tests="4" failures="0" time="0.022000000000000002">
-    <testcase name="Root Suite Rest API test Status API setting user status" time="0.008" classname="setting user status">
-    </testcase>
-    <testcase name="Root Suite Rest API test Status API setting another user status" time="0.005" classname="setting another user status">
-    </testcase>
-    <testcase name="Root Suite Rest API test Status API setting invalid status" time="0.006" classname="setting invalid status">
-    </testcase>
-    <testcase name="Root Suite Rest API test Status API setting DNE status" time="0.003" classname="setting DNE status">
-    </testcase>
-  </testsuite>
-  <testsuite name="Public chat API" timestamp="2016-03-28T22:50:33" tests="5" failures="0" time="0.03">
-    <testcase name="Root Suite Rest API test Public chat API Saving public messages" time="0.007" classname="Saving public messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Saving DNE public messages" time="0.003" classname="Saving DNE public messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Getting public messages" time="0.006" classname="Getting public messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Getting someones messages" time="0.008" classname="Getting someones messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Public chat API Getting nobodys messages" time="0.006" classname="Getting nobodys messages">
-    </testcase>
-  </testsuite>
-  <testsuite name="Private chat API" timestamp="2016-03-28T22:50:33" tests="9" failures="0" time="0.04900000000000001">
-    <testcase name="Root Suite Rest API test Private chat API Saving private messages" time="0.006" classname="Saving private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Saving reciprocate private messages" time="0.007" classname="Saving reciprocate private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Saving sender wrong private messages" time="0.004" classname="Saving sender wrong private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Saving target wrong private messages" time="0.004" classname="Saving target wrong private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Get private messages" time="0.013" classname="Get private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Get DNE user1 private messages" time="0.003" classname="Get DNE user1 private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Get DNE user2 private messages" time="0.004" classname="Get DNE user2 private messages">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Get private convos" time="0.005" classname="Get private convos">
-    </testcase>
-    <testcase name="Root Suite Rest API test Private chat API Get DNE private convo" time="0.003" classname="Get DNE private convo">
-    </testcase>
-  </testsuite>
-  <testsuite name="Announcements API" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.007">
-    <testcase name="Root Suite Rest API test Announcements API post announcement" time="0.004" classname="post announcement">
-    </testcase>
-    <testcase name="Root Suite Rest API test Announcements API get announcement" time="0.003" classname="get announcement">
-    </testcase>
-  </testsuite>
-  <testsuite name="Search User API" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.009000000000000001">
-    <testcase name="Root Suite Rest API test Search User API search existing users" time="0.004" classname="search existing users">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search User API search DNE users" time="0.005" classname="search DNE users">
-    </testcase>
-  </testsuite>
-  <testsuite name="Search Status API" timestamp="2016-03-28T22:50:33" tests="3" failures="0" time="0.011">
-    <testcase name="Root Suite Rest API test Search Status API search existing status" time="0.004" classname="search existing status">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search Status API search invalid status" time="0.003" classname="search invalid status">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search Status API search no one status" time="0.004" classname="search no one status">
-    </testcase>
-  </testsuite>
-  <testsuite name="Search Announcements API" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.013000000000000001">
-    <testcase name="Root Suite Rest API test Search Announcements API search valid announcements" time="0.008" classname="search valid announcements">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search Announcements API search no result announcements" time="0.005" classname="search no result announcements">
-    </testcase>
-  </testsuite>
-  <testsuite name="Search Public API" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.007">
-    <testcase name="Root Suite Rest API test Search Public API search valid public" time="0.004" classname="search valid public">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search Public API search no result public" time="0.003" classname="search no result public">
-    </testcase>
-  </testsuite>
-  <testsuite name="Search Private API" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.01">
-    <testcase name="Root Suite Rest API test Search Private API search valid private" time="0.006" classname="search valid private">
-    </testcase>
-    <testcase name="Root Suite Rest API test Search Private API search invalid first private" time="0.004" classname="search invalid first private">
-    </testcase>
-  </testsuite>
-  <testsuite name="Annoucement" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.003">
-    <testcase name="Root Suite Annoucement Tests saving announcement" time="0" classname="Tests saving announcement">
-    </testcase>
-    <testcase name="Root Suite Annoucement Tests getting announcement" time="0.003" classname="Tests getting announcement">
-    </testcase>
-  </testsuite>
-  <testsuite name="Join community" timestamp="2016-03-28T22:50:33" tests="4" failures="0" time="0.002">
+  <testsuite name="Join community" timestamp="2016-03-30T05:21:30" tests="4" failures="0" time="0.109">
     <testcase name="Root Suite Join community Test new user" time="0.001" classname="Test new user">
     </testcase>
-    <testcase name="Root Suite Join community Test adding user" time="0" classname="Test adding user">
+    <testcase name="Root Suite Join community Test adding user" time="0.004" classname="Test adding user">
     </testcase>
-    <testcase name="Root Suite Join community Test existed user, password correct" time="0.001" classname="Test existed user, password correct">
+    <testcase name="Root Suite Join community Test existed user, password correct" time="0.104" classname="Test existed user, password correct">
     </testcase>
     <testcase name="Root Suite Join community Test existed user, password not correct" time="0" classname="Test existed user, password not correct">
     </testcase>
   </testsuite>
-  <testsuite name="Private Chat" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.003">
+  <testsuite name="Private Chat" timestamp="2016-03-30T05:21:30" tests="2" failures="0" time="0.101">
     <testcase name="Root Suite Private Chat Test saving private messeges " time="0.001" classname="Test saving private messeges ">
     </testcase>
-    <testcase name="Root Suite Private Chat Test getting private messeges " time="0.002" classname="Test getting private messeges ">
+    <testcase name="Root Suite Private Chat Test getting private messeges " time="0.1" classname="Test getting private messeges ">
     </testcase>
   </testsuite>
-  <testsuite name="Public Chat" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.002">
+  <testsuite name="Public Chat" timestamp="2016-03-30T05:21:30" tests="2" failures="0" time="0.1">
     <testcase name="Root Suite Public Chat Tests saving public messages" time="0.001" classname="Tests saving public messages">
     </testcase>
-    <testcase name="Root Suite Public Chat Tests getting public messages" time="0.001" classname="Tests getting public messages">
+    <testcase name="Root Suite Public Chat Tests getting public messages" time="0.099" classname="Tests getting public messages">
     </testcase>
   </testsuite>
-  <testsuite name="Search Infomation" timestamp="2016-03-28T22:50:33" tests="10" failures="0" time="0.008">
-    <testcase name="Root Suite Search Infomation Test searching users" time="0" classname="Test searching users">
+  <testsuite name="Search Infomation" timestamp="2016-03-30T05:21:30" tests="10" failures="0" time="0.010000000000000002">
+    <testcase name="Root Suite Search Infomation Test searching users" time="0.001" classname="Test searching users">
     </testcase>
-    <testcase name="Root Suite Search Infomation Test fail searching users" time="0" classname="Test fail searching users">
+    <testcase name="Root Suite Search Infomation Test fail searching users" time="0.002" classname="Test fail searching users">
     </testcase>
     <testcase name="Root Suite Search Infomation Test searching status" time="0.001" classname="Test searching status">
     </testcase>
     <testcase name="Root Suite Search Infomation Test fail searching status" time="0.001" classname="Test fail searching status">
     </testcase>
-    <testcase name="Root Suite Search Infomation Test searching annoucements" time="0.002" classname="Test searching annoucements">
+    <testcase name="Root Suite Search Infomation Test searching annoucements" time="0.001" classname="Test searching annoucements">
     </testcase>
-    <testcase name="Root Suite Search Infomation Test fail searching annoucements" time="0" classname="Test fail searching annoucements">
+    <testcase name="Root Suite Search Infomation Test fail searching annoucements" time="0.001" classname="Test fail searching annoucements">
     </testcase>
     <testcase name="Root Suite Search Infomation Test searching public messages" time="0.001" classname="Test searching public messages">
     </testcase>
-    <testcase name="Root Suite Search Infomation Test fail searching public messages" time="0.001" classname="Test fail searching public messages">
+    <testcase name="Root Suite Search Infomation Test fail searching public messages" time="0" classname="Test fail searching public messages">
     </testcase>
     <testcase name="Root Suite Search Infomation Test searching private messages" time="0.001" classname="Test searching private messages">
     </testcase>
     <testcase name="Root Suite Search Infomation Test fail searching private messages" time="0.001" classname="Test fail searching private messages">
     </testcase>
   </testsuite>
-  <testsuite name="Set Status" timestamp="2016-03-28T22:50:33" tests="2" failures="0" time="0.003">
-    <testcase name="Root Suite Set Status Test setting status" time="0.001" classname="Test setting status">
+  <testsuite name="Set Status" timestamp="2016-03-30T05:21:30" tests="2" failures="0" time="0.106">
+    <testcase name="Root Suite Set Status Test setting status" time="0.105" classname="Test setting status">
     </testcase>
-    <testcase name="Root Suite Set Status Test getting status" time="0.002" classname="Test getting status">
+    <testcase name="Root Suite Set Status Test getting status" time="0.001" classname="Test getting status">
     </testcase>
   </testsuite>
 </testsuites>

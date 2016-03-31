@@ -310,7 +310,7 @@ module.exports = function(app, db, testDB) {
 	    }
 	    var names = req.body.username.trim().split(" ").filter(noempty);
 
-	    if (names.length) {
+	    if (!names.length) {
 		error("No username specified");
 	    } else {
 		function usercall(result) {

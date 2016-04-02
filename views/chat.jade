@@ -11,29 +11,44 @@ html(lang='en')
     link(href='css/home.css', rel='stylesheet')
     link(href='font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
     link(href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic', rel='stylesheet', type='text/css')
-    script(src='js/cookies.js')
-    script(src='http://code.jquery.com/jquery-1.11.1.js')
-    script(src='/socket.io/socket.io.js')
-    script(src='js/chat.js')
+    
 
   body
     header#top.header
    
       .list-group(style='width:50%; margin:auto')
         h1(style='text-align:center') Public Chat
-        a#newmessagenotification(style='color:blue')
         br
-        div
-          textarea(rows="4", cols="50", placeholder="Post something!")#outgoingMessage
-          br
-          input.btn.btn-primary(type="button", value="Post", onclick="sendpublicmessage()")#send
+        if(!locals.isphoto)
+          div#text
+            textarea(rows="4", cols="50", placeholder="Post something!")#outgoingMessage
+            br
+            input.btn.btn-primary(type="button", value="Post", onclick="sendpublicmessage()")#send
+        if(locals.isphoto)
+          div#output
+            img(width="200")#photo 
+            br
+            input.btn.btn-primary(type="button", value="Post", onclick="sendpublicphoto()")#sendphoto
+            input.btn.btn-primary(type="button", value="Cancel", onclick="cancelphoto()")#cancelphoto
+        
+        br
+        form(action="/photo")
+          input.btn.btn-primary(type="submit", value="Take a photo")#take
         br
         div#messages
           each msg in result
             b(style='float:left')=msg.username
             b(style='float:right')=msg.timestamp
             br
-            h=msg.message
+            if(msg.isImage)
+              img(src=msg.message, alt=msg.message)
+            if(!msg.isImage)
+              p=msg.message
             hr
-        
+       
+        p(style='display:none')#hidden #{imagedata}
   
+    script(src='js/cookies.js')
+    script(src='http://code.jquery.com/jquery-1.11.1.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='js/chat.js')

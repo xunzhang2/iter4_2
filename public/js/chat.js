@@ -1,10 +1,16 @@
 socket = io();
 username=getCookie('username');
 
+var imagedata=decodeURIComponent($('#hidden').html());
+var photo=document.getElementById('photo');
+if(photo)
+	photo.setAttribute('src', imagedata);
+
 //send username to the server
 socket.on('connect', function (data) {
    socket.emit('usersList', { name: getCookie('username') });
 });
+
 
 
 //attach new messages on message list
@@ -43,15 +49,26 @@ function sendpublicmessage(){
       success: function (data) {
 		console.log("data="+data.start);
 		if(data.start)
-			// document.write("~overwrite");
 			window.location.href='/chat'; // purpose: to render busy.jade
 		}
     });
 
 	var message = $('#outgoingMessage').val();
     socket.emit('sendPublicMessage',{message:message, name:username});
-	$('#outgoingMessage').val('');
-	
-	
+	$('#outgoingMessage').val('');	
+}
+
+function sendpublicphoto(){
+	$.ajax({
+      url:  '/savephoto',
+      type: 'POST',
+      data: {imagedata: $('#hidden').html(), name:username},  // encoded
+      cache: false
+    });
+	window.location.href='/chat';
+}
+
+function cancelphoto(){
+	window.location.href='/chat';
 }
 

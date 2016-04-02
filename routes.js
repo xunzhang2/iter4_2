@@ -2,9 +2,37 @@ module.exports = function(app, db, testDB) {
    
     fs = require('fs');
     db.createDB("database.db");
-    testDB.createDB("testdb.db");
-    
+    testDB.createDB("testdb.db");   
     var isMeasuringPerformance=false;
+
+
+    // =========== ITER4  ==============
+    app.get('/photo', function(req,res){
+    	res.render('photo');
+    });
+
+    app.post('/chat', function(req,res){
+	    var imagename=req.body.imagename;
+    	var imagedata=req.body.imagedata;
+    	res.send({imagedata:imagedata});
+	        
+    });
+
+   app.post('/savephoto', function(req,res){
+   		var imagedata=req.body.imagedata;  //encoded
+   		var date=new Date();
+   		var seconds=date.getTime();
+   		var filename=__dirname + "\\images\\" + seconds + ".txt";
+   		fs.writeFile(filename, imagedata, function (err) {
+  			if (err) 
+  				return console.log(err);	
+  			// console.log('image > ' + filename);
+		});
+   		db.saveMessages(filename, current_time(), req.body.name, function(){});
+   });
+
+
+
     
     // =========== INDEX PAGE  ==============
     app.get('/', function(req, res) {
@@ -49,7 +77,7 @@ module.exports = function(app, db, testDB) {
     		res.render('busy');
     	else{
 	    	function callback(result) {
-			res.locals.result=result;
+			res.locals.result= result;
 			res.locals.title = "Users";
 			res.json(result);
 	    	}
@@ -62,11 +90,26 @@ module.exports = function(app, db, testDB) {
     app.get('/chat', function(req, res) {
     	if(isMeasuringPerformance)
     		res.render('busy');
-	    else if ('username' in req.cookies)
+	    else if ('username' in req.cookies){
 	        db.getMessages(function(doc){
 	  		res.locals.title = "Chat";
-	 		res.render("chat", {result: doc});
-	    });
+	  		if(req.param('imagedata')!=null){
+	  			res.locals.isphoto=true;
+	    		res.locals.imagedata=req.param('imagedata');
+	    	}
+	    	// console.log(JSON.stringify(doc));
+	    	var i=0;	    	
+	    	for (;i<doc.length;i++){
+	    		if(doc[i].message.indexOf(__dirname + "\\images\\")==0){  // is image
+	    			var modifiedPath=doc[i].message.replace("\\\\","\\");
+	    			var data=fs.readFileSync(modifiedPath);
+  					doc[i].message=decodeURIComponent(data);
+  					doc[i].isImage=true;  // flag: is this message text or image					
+	    		}
+	    	}
+	 		res.render("chat", {result: doc, imagedata:req.param('imagedata')});
+	    	});
+	    }
 	    else
 	     res.render('login');
     });
@@ -90,13 +133,10 @@ module.exports = function(app, db, testDB) {
     	res.send({start:true}); //not equivalent to "return"!
     	else
     		res.send({start:false});
-
     });
 
 	// to set flag
     app.get('/startmeasurement', function(req,res){
-    	
-
     	isMeasuringPerformance=true;
     	// flag=true;
     	console.log("start--set flag to "+ isMeasuringPerformance);
@@ -227,7 +267,7 @@ module.exports = function(app, db, testDB) {
 	    	if(password2==password){
 				db.addUser(username, password, function(done) {
 		    	res.cookie('username', username, {maxAge:200000});
-		    	req.sessioin.message = "New user created: " + username;
+		    	req.session.message = "New user created: " + username;
 		    	res.redirect('/users');
 				});
 	    	}

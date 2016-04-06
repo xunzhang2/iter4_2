@@ -11,13 +11,6 @@ module.exports = function(app, db, testDB) {
     	res.render('photo');
     });
 
-    app.post('/chat', function(req,res){
-	    var imagename=req.body.imagename;
-    	var imagedata=req.body.imagedata;
-    	res.send({imagedata:imagedata});
-	        
-    });
-
    app.post('/savephoto', function(req,res){
    		var imagedata=req.body.imagedata;  //encoded
    		var date=new Date();
@@ -88,8 +81,9 @@ module.exports = function(app, db, testDB) {
 	    
     // ============== CHAT =============
     app.get('/chat', function(req, res) {
-    	if(isMeasuringPerformance)
+    	if(isMeasuringPerformance){
     		res.render('busy');
+    	}
 	    else if ('username' in req.cookies){
 	        db.getMessages(function(doc){
 	  		res.locals.title = "Chat";
@@ -97,7 +91,7 @@ module.exports = function(app, db, testDB) {
 	  			res.locals.isphoto=true;
 	    		res.locals.imagedata=req.param('imagedata');
 	    	}
-	    	// console.log(JSON.stringify(doc));
+	    	// console.log("doc=  "+JSON.stringify(doc));
 	    	var i=0;	    	
 	    	for (;i<doc.length;i++){
 	    		if(doc[i].message.indexOf(__dirname + "\\images\\")==0){  // is image

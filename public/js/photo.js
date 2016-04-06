@@ -41,12 +41,6 @@ startbutton.addEventListener('click', function(ev){
 video.addEventListener('canplay', function(ev){
       if (!streaming) {
         height = video.videoHeight / (video.videoWidth/width);
-        // Firefox currently has a bug where the height can't be read from
-        // the video, so we will make assumptions if this happens.
-      
-        if (isNaN(height)) {
-          height = width / (4/3);
-        }
 
         video.setAttribute('width', width);
         video.setAttribute('height', height);
@@ -77,10 +71,10 @@ function takepicture() {
       photo.setAttribute('src', dataurl);
       //=======================upload photo to server==============
       dataurl = encodeURIComponent(dataurl); // deal with escape characters
-      var data = {  
-            imagename: "myImage.png",  
-            imagedata: dataurl  
-        };
+      // var data = {  
+      //       imagename: "myImage.png",  
+      //       imagedata: dataurl  
+      //   };
     //   $.ajax({
     //   url:  '/chat',
     //   type: 'POST',

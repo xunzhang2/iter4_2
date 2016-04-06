@@ -4,6 +4,20 @@ module.exports = function(io, db) {
   var map = new HashMap();
   io.on("connection", function(socket){
 
+//============================ ITER 4  ===============================    
+    socket.on('sendPublicImage', function(data){
+      io.emit("broadcastPublicImage", data); //broadcast
+      var imagedata=data.imagedata;  //encoded
+      var date=new Date();
+      var seconds=date.getTime();
+      var filename=__dirname + "\\images\\" + seconds + ".txt";
+      fs.writeFile(filename, imagedata, function (err) {
+        if (err) 
+          return console.log(err);
+    });
+      db.saveMessages(filename, current_time(), data.name, function(){});
+    });
+
 //============================ collect online users  =====================================
 
     socket.on('usersList', function (data) {

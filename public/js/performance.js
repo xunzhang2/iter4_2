@@ -111,10 +111,10 @@ var resetMeasurement = function(){
       dataType: 'json'
     });
 
-    get_num=0;
-    post_num=0;
-    elapsedTime=0;
-    elapsedTime_get=0;
-    elapsedTime_post=0;
+    // get_num=0;
+    // post_num=0;
+    // elapsedTime=0;
+    // elapsedTime_get=0;
+    // elapsedTime_post=0;
 };
 
